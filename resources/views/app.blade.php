@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- FAVICONS ICON -->
-    <link rel="shortcut icon" type="image/png" href="{{ asset('/assets/images/favicon.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('/images/COV_logo.png') }}">
 
     <link rel="stylesheet" href="{{ asset('/assets/icons/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/assets/icons/line-awesome/css/line-awesome.min.css') }}">
@@ -35,7 +35,7 @@
     @inertiaHead
 </head>
 
-<body class="selection:text-white selection:bg-primary">
+<body class="selection:text-white selection:bg-primary" data-theme-version="dark">
 
     @inertia
 
@@ -44,7 +44,7 @@
 
     <script defer src="{{ asset('/assets/js/deznav-init.js') }}"></script>
     <script defer src="{{ asset('/assets/js/custom.min.js') }}"></script>
-    <script defer src="{{ asset('/assets/js/styleSwitcher.js') }}"></script>
+    {{-- <script defer src="{{ asset('/assets/js/styleSwitcher.js') }}"></script> --}}
     <script defer src="{{ asset('/assets/js/demo.min.js') }}"></script>
 </body>
 
