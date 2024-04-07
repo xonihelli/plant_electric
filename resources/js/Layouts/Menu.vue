@@ -63,7 +63,7 @@
         <span class="nav-text"> Cuartos electricos</span>
       </a>
     </li>
-    <li>
+    <!-- <li>
       <a :href="route('rooms.electric-charge.index')">
         <div class="menu-icon">
           <svg
@@ -157,7 +157,7 @@
         </div>
         <span class="nav-text">Cargas Electricas</span>
       </a>
-    </li>
+    </li> -->
     <!-- <li class="menu-title">Calculos</li>
 
     <li>
