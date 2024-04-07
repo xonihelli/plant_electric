@@ -42,7 +42,7 @@ class RoomController extends Controller
 
         Room::create($request->all());
 
-        return redirect()->route('cuartos-electricos.index');
+        return redirect()->route('rooms.room.index');
     }
 
     /**
@@ -50,11 +50,7 @@ class RoomController extends Controller
      */
     public function show(string $id)
     {
-        $room = Room::find($id);
 
-        return Inertia::render('Room/Show', [
-            'data' => $room,
-        ]);
     }
 
     /**
@@ -82,7 +78,7 @@ class RoomController extends Controller
         $room = Room::find($id);
         $room->update($request->all());
 
-        return redirect()->route('cuartos-electricos.index');
+        return redirect()->route('rooms.room.index');
     }
 
     /**
@@ -93,6 +89,6 @@ class RoomController extends Controller
         $room = Room::find($id);
         $room->delete();
 
-        return redirect()->route('cuartos-electricos.index');
+        return redirect()->route('rooms.room.index');
     }
 }
