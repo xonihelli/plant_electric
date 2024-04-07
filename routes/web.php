@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
+
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
@@ -32,12 +32,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('room', RoomController::class);
         Route::resource('electric-charge', ElectricChargeController::class);
     });
-    
+
     Route::prefix('charge')->name('charge.')->group(function () {
         Route::resource('directive', ChargeDerivateController::class);
         Route::resource('sub-directive', ChargeSubDerivateController::class);
     });
-
 });
 
 require __DIR__ . '/auth.php';
