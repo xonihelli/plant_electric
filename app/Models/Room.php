@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Room extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * Summary of table
@@ -23,4 +24,11 @@ class Room extends Model
         'name',
         'description',
     ];
+
+    /*-------------------------------- RELACIONES ------------------------------*/
+    public function electricCharges()
+    {
+        return $this->hasMany(ElectricCharge::class);
+    }
+    /*------------------------------------------------------------------------*/
 }
