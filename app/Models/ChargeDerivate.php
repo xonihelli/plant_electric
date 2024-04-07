@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class ChargeDerivate extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * Summary of table
@@ -29,7 +30,6 @@ class ChargeDerivate extends Model
     ];
 
     /*-------------------------------- RELACIONES ------------------------------*/
-
     /**
      * Summary of electricCharge
      * @return mixed
