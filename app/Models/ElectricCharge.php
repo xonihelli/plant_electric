@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class ElectricCharge extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * Summary of table
@@ -46,13 +47,14 @@ class ElectricCharge extends Model
     {
         return $this->belongsTo(Room::class);
     }
+
     /**
-     * Summary of amount
+     * Summary of chargeDerivates
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function amount()
+    public function chargeDerivates()
     {
-        return $this->hasMany(ElectricCharge::class);
+        return $this->hasMany(ChargeDerivate::class);
     }
     /*------------------------------------------------------------------------*/
 }
