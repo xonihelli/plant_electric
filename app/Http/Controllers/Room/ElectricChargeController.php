@@ -92,7 +92,7 @@ class ElectricChargeController extends Controller
         $charge->measurement_date = $request->measurement_date;
         $charge->save();
 
-        return redirect()->route('rooms.electric-charge.index ');
+        return redirect()->route('rooms.room.index');
     }
 
     /**
@@ -110,10 +110,10 @@ class ElectricChargeController extends Controller
     {
         $charge = ElectricCharge::find($id);
         $rooms = Room::all();
-
         return Inertia::render('Rooms/ElectricCharge/Edit', [
             'data' => $charge,
             'rooms' => $rooms,
+            'electric_charge' => $id,
         ]);
     }
 
@@ -173,7 +173,7 @@ class ElectricChargeController extends Controller
         $charge->measurement_date = $request->measurement_date;
         $charge->save();
 
-        return redirect()->route('rooms.electric-charge.index');
+        return redirect()->route('rooms.room.index');
     }
 
     /**
@@ -184,6 +184,6 @@ class ElectricChargeController extends Controller
         $charge = ElectricCharge::find($id);
         $charge->delete();
 
-        return redirect()->route('rooms.electric-charge.index ');
+        return redirect()->route('rooms.room.index');
     }
 }
