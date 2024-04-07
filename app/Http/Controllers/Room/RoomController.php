@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Room;
 
 use App\Http\Controllers\Controller;
+use App\Models\ChargeDerivate;
 use Illuminate\Http\Request;
 use App\Models\Room;
 use Inertia\Inertia;
@@ -35,12 +36,19 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'name.required' => 'El campo nombre es requerido.',
+        ];
+
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-        ]);
+        ], $message);
 
-        Room::create($request->all());
+        $room = new Room();
+        $room->name = $request->name;
+        $room->description = $request->description;
+        $room->save();
 
         return redirect()->route('rooms.room.index');
     }
@@ -50,7 +58,11 @@ class RoomController extends Controller
      */
     public function show(string $id)
     {
-
+        $room = Room::with('electricCharges')->find($id);
+        return Inertia::render('Rooms/Room/Show', [
+            'room' => $room,
+            'idRoom' => $id,
+        ]);
     }
 
     /**
