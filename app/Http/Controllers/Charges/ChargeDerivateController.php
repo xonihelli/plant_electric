@@ -85,7 +85,7 @@ class ChargeDerivateController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Inertia::render('Charges/ChargeDerivate/Show');
     }
 
     /**
