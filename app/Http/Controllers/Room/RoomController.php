@@ -27,7 +27,7 @@ class RoomController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Room/Create');
+        return Inertia::render('Rooms/Room/Create');
     }
 
     /**
@@ -60,7 +60,7 @@ class RoomController extends Controller
     {
         $room = Room::find($id);
 
-        return Inertia::render('Room/Edit', [
+        return Inertia::render('Rooms/Room/Edit', [
             'data' => $room,
         ]);
     }
