@@ -1,14 +1,17 @@
+<script setup>
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+
+const props = defineProps({
+  data: {
+    type: Object,
+    default: () => ({}),
+  },
+});
+</script>
 <template>
-    <div>
-        
-    </div>
+  <div></div>
 </template>
 
-<script setup>
-
-</script>
 
 <style lang="scss" scoped>
-
-
 </style>
