@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->float('lightning_discharge');
             $table->float('surge');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

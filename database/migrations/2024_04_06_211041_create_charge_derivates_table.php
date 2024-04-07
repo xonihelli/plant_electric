@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->float('kw');
             $table->float('a');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

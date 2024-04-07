@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->float('fu_a');
             $table->date('measurement_date');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
