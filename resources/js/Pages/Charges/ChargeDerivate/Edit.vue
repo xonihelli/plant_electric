@@ -1,10 +1,96 @@
+
+<script setup>
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import TextInput from "@/Components/TextInput.vue";
+import { Link, useForm } from "@inertiajs/vue3";
+
+const props = defineProps({
+  data: {
+    type: Object,
+    default: () => ({}),
+  },
+
+  electricCharges: {
+    type: Object,
+    default: () => ({}),
+  },
+});
+
+const form = useForm({
+  electric_charge_id: props.data.id ?? "",
+  name_technical: props.data.name_technical ?? "",
+  name: props.data.name ?? "",
+  kw: props.data.kw ? props.data.kw.toString() : "",
+  a: props.data.a ? props.data.a.toString() : "",
+});
+
+const sendForm = () => {
+  form.submit(
+    "put",
+    route("charge.directive.update", {
+      directive: props.data.id,
+    }),
+    {
+      onFinish: () => {
+        if (Object.keys(form.errors).length) {
+          Swal.fire({
+            icon: "error",
+            title: "Hay errores en el formulario",
+          });
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: "La información del tablero de distribuición ha sido creada",
+          }).then(() => {
+            location.href("charge.directive.index");
+          });
+        }
+      },
+    }
+  );
+};
+
+let status = [
+  {
+    id: 1,
+    name: "bueno",
+    class: "success",
+    icon: "fa-solid fa-check",
+  },
+  {
+    id: 1,
+    name: "peligroso",
+    class: "warning",
+    icon: "fa-solid fa-triangle-exclamation",
+  },
+  {
+    id: 1,
+    name: "malo",
+    class: "success",
+    icon: "fa-solid fa-xmark",
+  },
+];
+
+let room = {
+  id: 1,
+  name: "cuarto #" + Math.floor(Math.random() * 1000),
+  description:
+    "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+  charge: Math.floor(Math.random() * 1000),
+  porcent: Math.floor(Math.random() * 100),
+  status: status[Math.floor(Math.random() * status.length)],
+};
+</script>
+
 <template>
   <AuthenticatedLayout>
     <div class="card">
       <div
         class="card-header flex justify-between px-5 pt-6 relative z-[2] pb-0"
       >
-        <h2 class="card-title text-base text-sm">Detalles de cuarto</h2>
+        <h2 class="card-title text-base">Detalles del transformador</h2>
       </div>
       <div class="card-body sm:p-5 p-4 sm:pb-0 pb-0">
         <div class="flex flex-wrap w-full">
@@ -65,14 +151,15 @@
         </div>
       </div>
     </div>
+
     <div class="card dz-tab-area">
       <div
         class="card-header sm:flex justify-between items-center px-5 pt-6 relative z-[2] pb-0 block"
       >
-        <h4 class="card-title capitalize">Editar carga derivada</h4>
+        <h4 class="card-title capitalize">Agregar Tablero de distribuición</h4>
 
         <Link
-          :href="route('rooms.room.show', { room: 0 })"
+          :href="route('charge.directive.index')"
           class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
         >
           <i class="fa-solid fa-arrow-left"></i>
@@ -80,124 +167,94 @@
         </Link>
       </div>
       <div class="sm:p-5 p-4">
-        <div class="space-y-4">
-          <div>
-            <InputLabel for="tag" value="Tag" />
-            <TextInput
-              id="tag"
-              v-model="form.tag"
-              type="text"
-              autocomplete="current-password"
-            />
-            <InputError :message="form.tag" class="mt-2" />
-          </div>
-          <div>
-            <InputLabel for="name" value="Nombre del cuarto" />
-            <TextInput
-              id="name"
-              v-model="form.name"
-              type="text"
-              autocomplete="current-password"
-            />
-            <InputError :message="form.name" class="mt-2" />
-          </div>
-          <div>
-            <InputLabel for="description" value="Descripción" />
-            <textarea
-              class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 focus:border-primary dark:hover:border-b-color outline-none w-full input-default"
-              id="description"
-              v-model="form.description"
-            ></textarea>
-          </div>
-          <div class="flex sm:flex-wrap md:flex-nowrap space-x-2">
-            <div class="w-full md:w-1/2">
-              <InputLabel for="kw" value="kW" />
-              <TextInput
-                id="kw"
-                v-model="form.kw"
-                type="text"
-                autocomplete="current-password"
+        <form @submit.prevent="sendForm" class="form">
+          <div class="space-y-4">
+            <div>
+              <InputLabel
+                for="electric_charge_id"
+                value="Transformador al que pertenece"
               />
-              <InputError :message="form.kw" class="mt-2" />
+              <select
+                class="form-select relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 focus:border-primary dark:hover:border-b-color outline-none w-full input-default"
+                id="room_id"
+                v-model="form.electric_charge_id"
+              >
+                <option value="" disabled selected>
+                  Selecciona un transformador electrico al que pertenece el
+                  trablero de distribución
+                </option>
+                <option
+                  v-for="electricCharge in electricCharges"
+                  :key="electricCharge.id"
+                  :value="electricCharge.id"
+                >
+                  {{ electricCharge.name }}
+                </option>
+              </select>
+              <InputError :message="form.errors.electric_charge_id" />
             </div>
-            <div class="w-full md:w-1/2">
-              <InputLabel for="a" value="A" />
-              <TextInput
-                id="a"
-                v-model="form.a"
-                type="text"
-                autocomplete="current-password"
-              />
-              <InputError :message="form.a" class="mt-2" />
+
+            <div class="flex sm:flex-wrap md:flex-nowrap space-x-2">
+              <div class="w-full md:w-1/2">
+                <InputLabel for="name_technical" value="Nombre técnico" />
+                <TextInput
+                  id="name_technical"
+                  v-model="form.name_technical"
+                  type="text"
+                  autocomplete="off"
+                />
+                <InputError :message="form.errors.name_technical" />
+              </div>
+              <div class="w-full md:w-1/2">
+                <InputLabel for="name" value="Nombre" />
+                <TextInput
+                  id="name"
+                  v-model="form.name"
+                  type="text"
+                  autocomplete="off"
+                />
+                <InputError :message="form.errors.name" />
+              </div>
+            </div>
+            <div class="flex sm:flex-wrap md:flex-nowrap space-x-2">
+              <div class="w-full md:w-1/2">
+                <InputLabel for="kw" value="kW" />
+                <TextInput
+                  id="kw"
+                  v-model="form.kw"
+                  type="text"
+                  autocomplete="off"
+                />
+                <InputError :message="form.errors.kw" />
+              </div>
+              <div class="w-full md:w-1/2">
+                <InputLabel for="a" value="A" />
+                <TextInput
+                  id="a"
+                  v-model="form.a"
+                  type="text"
+                  autocomplete="off"
+                />
+                <InputError :message="form.errors.a" />
+              </div>
+            </div>
+            <div class="flex justify-around">
+              <Link
+                :href="route('charge.directive.index')"
+                class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-secondary text-white bg-secondary hover:bg-hover-secondary hover:border-hover-success duration-300 btn-xxs shadow"
+              >
+                Cancelar
+              </Link>
+              <button
+                class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-success text-white bg-success hover:bg-hover-success hover:border-hover-success duration-300 btn-xxs shadow"
+              >
+                Crear carga derivada
+              </button>
             </div>
           </div>
-          <div class="flex justify-around">
-            <Link
-              :href="route('rooms.room.show', { room: 0 })"
-              class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-secondary text-white bg-secondary hover:bg-hover-secondary hover:border-hover-success duration-300 btn-xxs shadow"
-            >
-              Cancelar
-            </Link>
-            <button
-              class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-success text-white bg-success hover:bg-hover-success hover:border-hover-success duration-300 btn-xxs shadow"
-            >
-              Crear cuarto
-            </button>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   </AuthenticatedLayout>
-</template>
-
-<script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
-import { Link, useForm } from "@inertiajs/vue3";
-
-let status = [
-  {
-    id: 1,
-    name: "bueno",
-    class: "success",
-    icon: "fa-solid fa-check",
-  },
-  {
-    id: 1,
-    name: "peligroso",
-    class: "warning",
-    icon: "fa-solid fa-triangle-exclamation",
-  },
-  {
-    id: 1,
-    name: "malo",
-    class: "success",
-    icon: "fa-solid fa-xmark",
-  },
-];
-
-let room = {
-  id: 1,
-  name: "cuarto #" + Math.floor(Math.random() * 1000),
-  description:
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-  charge: Math.floor(Math.random() * 1000),
-  porcent: Math.floor(Math.random() * 100),
-  status: status[Math.floor(Math.random() * status.length)],
-};
-
-const form = useForm({
-  tag: "",
-  name: "",
-  kw: "",
-  a: "",
-  description: "",
-});
-</script>
-<template>
-  <div></div>
 </template>
 
