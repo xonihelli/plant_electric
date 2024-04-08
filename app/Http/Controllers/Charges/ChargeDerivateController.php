@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Charges;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChargeDerivate;
-use App\Models\ChargeSubDerivate;
 use App\Models\ElectricCharge;
-use App\Models\Room;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,7 +15,7 @@ class ChargeDerivateController extends Controller
      */
     public function index()
     {
-        $chargeDerivates = ChargeDerivate::all();
+        $chargeDerivates = ChargeDerivate::with('electricCharge')->get();
         return Inertia::render(
             'Charges/ChargeDerivate/Index',
             [
@@ -86,7 +84,9 @@ class ChargeDerivateController extends Controller
      */
     public function show(string $id)
     {
-        $charge = ChargeDerivate::findOrFail($id);
+        // $charge = ChargeDerivate::findOrFail($id);
+        $charge = ChargeDerivate::where('electric_charge_id', $id)->get();
+
         return Inertia::render(
             'Charges/ChargeDerivate/Show',
             [
