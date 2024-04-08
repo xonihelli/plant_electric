@@ -14,6 +14,27 @@ const props = defineProps({
     type: String,
   },
 });
+
+let status = [
+  {
+    id: 1,
+    name: "bueno",
+    class: "success",
+    icon: "fa-solid fa-check",
+  },
+  {
+    id: 1,
+    name: "peligroso",
+    class: "warning",
+    icon: "fa-solid fa-triangle-exclamation",
+  },
+  {
+    id: 1,
+    name: "malo",
+    class: "success",
+    icon: "fa-solid fa-xmark",
+  },
+];
 </script>
 <template>
   <AuthenticatedLayout>
@@ -57,9 +78,9 @@ const props = defineProps({
               <li
                 class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
               >
-                <strong> Cargas </strong>
+                <strong> Total de transformadores </strong>
                 <span class="mb-0">
-                  CANTIDAD DE CARGAS QUE HAY EN UN CUARTO
+                  CANTIDAD DE Trasnformadores QUE HAY EN UN CUARTO
                 </span>
               </li>
               <li
@@ -71,13 +92,13 @@ const props = defineProps({
               <li
                 class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
               >
-                <strong> Kw </strong>
+                <strong> Total de los Kw </strong>
                 <span class="mb-0">TOTAL DE KW </span>
               </li>
               <li
                 class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
               >
-                <strong> A </strong>
+                <strong>Total de los A </strong>
                 <span class="mb-0"> TOTAL DE A</span>
               </li>
               <li
@@ -103,7 +124,9 @@ const props = defineProps({
       <div
         class="card-header sm:flex justify-between items-center px-5 pt-6 relative z-[2] pb-0 block"
       >
-        <h4 class="card-title capitalize">Cargas Electricas</h4>
+        <h4 class="card-title capitalize">
+          Transformadores eléctricos del cuarto
+        </h4>
 
         <Link
           :href="route('rooms.electric-charge.create')"
