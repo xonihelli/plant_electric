@@ -59,6 +59,7 @@ class RoomController extends Controller
     public function show(string $id)
     {
         $room = Room::with('electricCharges')->find($id);
+
         return Inertia::render('Rooms/Room/Show', [
             'room' => $room,
             'idRoom' => $id,
