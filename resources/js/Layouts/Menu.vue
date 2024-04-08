@@ -63,8 +63,8 @@
         <span class="nav-text"> Cuartos electricos</span>
       </a>
     </li>
-    <!-- <li>
-      <a :href="route('rooms.electric-charge.index')">
+    <li>
+      <a :href="route('charge.directive.index')">
         <div class="menu-icon">
           <svg
             width="22"
@@ -96,11 +96,40 @@
             />
           </svg>
         </div>
-        <span class="nav-text"> Transformadores</span>
+        <span class="nav-text">Tableros de distribución</span>
+      </a>
+    </li>
+    <li>
+      <a :href="route('charge.sub-directive.index')">
+        <div class="menu-icon">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 22 22"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M14.9732 2.52102H7.0266C4.25735 2.52102 2.52118 4.48177 2.52118 7.25651V14.7438C2.52118 17.5186 4.2491 19.4793 7.0266 19.4793H14.9723C17.7507 19.4793 19.4795 17.5186 19.4795 14.7438V7.25651C19.4795 4.48177 17.7507 2.52102 14.9732 2.52102Z"
+              stroke="#888888"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M7.73657 11.0002L9.91274 13.1754L14.2632 8.82493"
+              stroke="#888888"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <span class="nav-text">Cargas Electricas</span>
       </a>
     </li>
 
-    <li>
+    <!-- <li>
       <a :href="route('charge.directive.index')">
         <div class="menu-icon">
           <svg
