@@ -37,7 +37,7 @@ const sendForm = () => {
       } else {
         Swal.fire({
           icon: "success",
-          title: "La información de la carga eléctrica ha sido guardada",
+          title: "La información del transformador eléctrico ha sido guardada",
         }).then(() => {
           location.href = route("rooms.electric-charge.index");
         });
@@ -55,7 +55,7 @@ const sendForm = () => {
           class="card-header flex justify-between px-5 pt-6 relative z-[2] pb-0"
         >
           <h2 class="card-title text-sm font-bold">
-            Detalles de carga eléctrica
+            Detalles del transformador eléctrico
           </h2>
         </div>
         <div class="card-body sm:p-5 p-4 space-y-6">
@@ -82,12 +82,16 @@ const sendForm = () => {
                     {{ room.name }}
                   </option>
                 </select>
+                <InputError :message="form.errors.room_id" />
               </div>
             </div>
             <div class="w-full md:w-1/2 px-2 mb-4">
               <!-- Nombre de la carga eléctrica -->
               <div>
-                <InputLabel for="name" value="Nombre de la carga eléctrica" />
+                <InputLabel
+                  for="name"
+                  value="Nombre del transformador eléctrico"
+                />
                 <TextInput
                   id="name"
                   v-model="form.name"
@@ -232,7 +236,7 @@ const sendForm = () => {
             <button
               class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-success text-white bg-success hover:bg-hover-success hover:border-hover-success duration-300 btn-xxs shadow"
             >
-              Crear carga eléctrica
+              Agregar Transformador eléctrico
             </button>
           </div>
         </div>
