@@ -11,19 +11,6 @@ use Inertia\Inertia;
 class ElectricChargeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $electricCharges = ElectricCharge::all();
-
-        return Inertia::render('Rooms/ElectricCharge/Index', [
-            'data' => $electricCharges,
-        ]);
-
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create()
