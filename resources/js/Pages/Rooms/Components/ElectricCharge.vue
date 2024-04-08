@@ -9,7 +9,7 @@ const props = defineProps({
 
 function deleteDerivada(id) {
   Swal.fire({
-    title: "¿Estas seguro de eliminar esta carga?",
+    title: "¿Estas seguro de eliminar este Transformador eléctrico?",
     text: "¡No podras revertir esto!",
     icon: "warning",
     showCancelButton: true,
@@ -25,9 +25,6 @@ function deleteDerivada(id) {
           { preserveScroll: true }
         )
       );
-      onSucess: () => {
-        Swal.fire("Eliminado!", "El registro ha sido eliminado.", "success");
-      };
     }
   });
 }
@@ -164,6 +161,14 @@ function deleteDerivada(id) {
               >
                 <i class="fa-solid fa-pen"></i>
                 Editar
+              </Link>
+
+              <Link
+                :href="route('charge.directive.show', { directive: charge.id })"
+                class="btn btn-info inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-info text-white bg-info hover:bg-hover-info hover:border-hover-info duration-300 btn-xxs shadow"
+              >
+                <i class="fa-solid fa-eye"></i>
+                Ver Tablero
               </Link>
 
               <button
