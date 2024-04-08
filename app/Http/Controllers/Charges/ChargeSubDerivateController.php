@@ -15,7 +15,7 @@ class ChargeSubDerivateController extends Controller
      */
     public function index()
     {
-        $chargeSubDerivates = ChargeSubDerivate::all();
+        $chargeSubDerivates = ChargeSubDerivate::with('chargeDerivate')->get();
 
         return Inertia::render(
             'Charges/ChargeSubDerivate/Index',
