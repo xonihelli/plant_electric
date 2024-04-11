@@ -2,6 +2,17 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import SubChargeDerivateIndex from "@/Pages/Charges/ChargeSubDerivate/Index.vue";
 import { Link, router } from "@inertiajs/vue3";
+
+let prop = defineProps({
+    charges: {
+        type: Object,
+    },
+    room: {
+        type: Object,
+    },
+});
+
+
 </script>
 <template>
   <AuthenticatedLayout>
