@@ -78,7 +78,7 @@ let status = [
               <li
                 class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
               >
-                <strong> Total de transformadores </strong>
+                <strong> Total de tableros </strong>
                 <span class="mb-0">
                   CANTIDAD DE Trasnformadores QUE HAY EN UN CUARTO
                 </span>
@@ -125,7 +125,7 @@ let status = [
         class="card-header sm:flex justify-between items-center px-5 pt-6 relative z-[2] pb-0 block"
       >
         <h4 class="card-title capitalize">
-          Transformadores eléctricos del cuarto
+          Tableros electricos del cuarto
         </h4>
 
         <Link
@@ -138,7 +138,7 @@ let status = [
       </div>
       <div class="sm:p-5 p-4">
         <div class="table-responsive">
-          <ElectricCharge :charges="props.room.electric_charges" />
+          <ElectricCharge :charges="room.electric_charges" :room="room" />
         </div>
       </div>
     </div>
