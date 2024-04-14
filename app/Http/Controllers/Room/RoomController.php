@@ -16,7 +16,24 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $rooms = Room::all();
+        // Cargamos los cuartos y con ellos, los transformadores y las demás relaciones anidadas
+        $rooms = Room::with(['electricCharges.chargeDerivates.chargeSubDerivate'])->get();
+
+        // Calculamos los totales necesarios
+        $rooms = $rooms->map(function ($room) {
+            // Contar directamente los transformadores (ElectricCharge)
+            $room->total_transformers = $room->electricCharges->count();
+
+            // Contar todas las cargas eléctricas (ChargeSubDerivate) relacionadas a través de ChargeDerivates
+            $room->total_electric_loads = $room->electricCharges->reduce(function ($carry, $charge) {
+                return $carry + $charge->chargeDerivates->reduce(function ($carry, $derivate) {
+
+                    return $carry + $derivate->chargeSubDerivate->count();
+                }, 0);
+            }, 0);
+
+            return $room;
+        });
 
         return Inertia::render('Rooms/Room/Index', [
             'data' => $rooms,
@@ -58,11 +75,35 @@ class RoomController extends Controller
      */
     public function show(string $id)
     {
-        $room = Room::with('electricCharges')->find($id);
+        $room = Room::with(['electricCharges.chargeDerivates'])->findOrFail($id);
+
+        // Calcula el total de transformadores
+        $totalTransformers = $room->electricCharges->count();
+
+        // Calcula el total de KW y A sumando los valores de todos los tableros de distribución de cada transformador
+        $totalKw = 0;
+        $totalA = 0;
+        foreach ($room->electricCharges as $charge) {
+            foreach ($charge->chargeDerivates as $derivate) {
+                $totalKw += $derivate->kw;
+                $totalA += $derivate->a;
+            }
+        }
+
+        session()->put([
+            'room' => $room,
+            'idRoom' => $id,
+            'totalTransformers' => $totalTransformers,
+            'totalKw' => $totalKw,
+            'totalA' => $totalA,
+        ]);
 
         return Inertia::render('Rooms/Room/Show', [
             'room' => $room,
             'idRoom' => $id,
+            'totalTransformers' => $totalTransformers,
+            'totalKw' => $totalKw,
+            'totalA' => $totalA
         ]);
     }
 
