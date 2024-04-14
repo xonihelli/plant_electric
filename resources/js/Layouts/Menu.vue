@@ -27,7 +27,7 @@
             />
           </svg>
         </div>
-        <span class="nav-text"> Dashboard electricos</span>
+        <span class="nav-text">Dashboard</span>
       </a>
     </li>
 
@@ -63,7 +63,7 @@
         <span class="nav-text"> Cuartos electricos</span>
       </a>
     </li>
-    <li>
+    <!-- <li>
       <a :href="route('charge.directive.index')">
         <div class="menu-icon">
           <svg
@@ -127,7 +127,7 @@
         </div>
         <span class="nav-text">Cargas Electricas</span>
       </a>
-    </li>
+    </li> -->
 
     <!-- <li>
       <a :href="route('charge.directive.index')">
