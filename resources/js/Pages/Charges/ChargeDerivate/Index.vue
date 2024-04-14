@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Link, router } from "@inertiajs/vue3";
+import { Link, router, Head } from "@inertiajs/vue3";
 
 const props = defineProps({
   data: {
@@ -36,6 +36,7 @@ function deleteDerivada(id) {
 </script>
 
 <template>
+    <Head title="Tableros de distribución"/>
   <AuthenticatedLayout>
     <div class="card dz-tab-area">
       <div
