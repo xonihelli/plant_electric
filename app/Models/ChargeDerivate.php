@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChargeDerivate extends Model
 {
+    //tableros de distribucion
     use HasFactory, SoftDeletes;
 
     /**
@@ -27,6 +28,9 @@ class ChargeDerivate extends Model
         'name',
         'kw',
         'a',
+        'surge',
+        'voltage',
+        'lightning_discharge',
     ];
 
     /*-------------------------------- RELACIONES ------------------------------*/
