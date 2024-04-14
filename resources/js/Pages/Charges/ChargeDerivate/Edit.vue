@@ -5,16 +5,49 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Link, useForm } from "@inertiajs/vue3";
+import CardRoom from "@/Components/Custom/CardRoom.vue";
+import CardElectronic from "@/Components/Custom/CardElectronic.vue";
 
 const props = defineProps({
+  transoformador: {
+    type: Object,
+    default: () => ({}),
+  },
+  electricCharges: {
+    type: Object,
+    default: () => ({}),
+  },
   data: {
     type: Object,
     default: () => ({}),
   },
-
-  electricCharges: {
+  room: {
     type: Object,
     default: () => ({}),
+  },
+  idRoom: {
+    type: String,
+    required: true,
+  },
+  idDirective: {
+    type: Number,
+    required: true,
+  },
+  totalTransformers: {
+    type: Number,
+    required: true,
+  },
+  totalKw: {
+    type: Number,
+    required: true,
+  },
+  totalA: {
+    type: Number,
+    required: true,
+  },
+  totalTablersDistro: {
+    type: Number,
+    required: true,
   },
 });
 
@@ -22,8 +55,11 @@ const form = useForm({
   electric_charge_id: props.data.id ?? "",
   name_technical: props.data.name_technical ?? "",
   name: props.data.name ?? "",
-  kw: props.data.kw ? props.data.kw.toString() : "",
-  a: props.data.a ? props.data.a.toString() : "",
+  voltage: props.data.voltage ? props.data.voltage.toString() : "",
+  surge: props.data.surge ? props.data.surge.toString() : "",
+  lightning_discharge: props.data.lightning_discharge
+    ? props.data.lightning_discharge.toString()
+    : "",
 });
 
 const sendForm = () => {
@@ -44,113 +80,73 @@ const sendForm = () => {
             icon: "success",
             title: "La información del tablero de distribuición ha sido creada",
           }).then(() => {
-            location.href("charge.directive.index");
+            location.href("charge.directive.show", { directive: idDirective });
           });
         }
       },
     }
   );
 };
-
-let status = [
-  {
-    id: 1,
-    name: "bueno",
-    class: "success",
-    icon: "fa-solid fa-check",
-  },
-  {
-    id: 1,
-    name: "peligroso",
-    class: "warning",
-    icon: "fa-solid fa-triangle-exclamation",
-  },
-  {
-    id: 1,
-    name: "malo",
-    class: "success",
-    icon: "fa-solid fa-xmark",
-  },
-];
-
-let room = {
-  id: 1,
-  name: "cuarto #" + Math.floor(Math.random() * 1000),
-  description:
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-  charge: Math.floor(Math.random() * 1000),
-  porcent: Math.floor(Math.random() * 100),
-  status: status[Math.floor(Math.random() * status.length)],
-};
 </script>
 
 <template>
   <AuthenticatedLayout>
-    <div class="card">
-      <div
-        class="card-header flex justify-between px-5 pt-6 relative z-[2] pb-0"
+    <div
+      class="page-titles dark:bg-[#242424] flex items-center justify-between relative border-b border-[#E6E6E6] dark:border-[#444444] flex-wrap z-[1] py-[0.6rem] sm:px-[1.95rem] px-[1.55rem] bg-white shadow mb-5"
+    >
+      <ol class="text-[13px] flex items-center flex-wrap bg-transparent">
+        <li>
+          <Link
+            :href="route('rooms.room.index')"
+            class="text-[#828690] dark:text-white text-[13px]"
+          >
+            Cuartos
+          </Link>
+        </li>
+        <li
+          class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left"
+        >
+          <Link
+            :href="route('rooms.room.show', { room: idRoom })"
+            class="text-[#828690] dark:text-white text-[13px]"
+          >
+            {{ room.name }}
+          </Link>
+        </li>
+        <li
+          class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left before:text-primary text-primary font-medium"
+        >
+          {{ transoformador.name }}
+        </li>
+        <li
+          class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left before:text-primary text-primary font-medium"
+        >
+          Agregar tablero de distribuición
+        </li>
+      </ol>
+
+      <Link
+        class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
+        :href="route('charge.directive.show', { directive: idDirective })"
       >
-        <h2 class="card-title text-base">Detalles del transformador</h2>
-      </div>
-      <div class="card-body sm:p-5 p-4 sm:pb-0 pb-0">
-        <div class="flex flex-wrap w-full">
-          <div class="w-full md:w-1/2">
-            <h1 class="mb-4 text-md font-semibold">
-              <i class="fa-solid fa-house mr-2"></i>
-              {{ room.name }}
-            </h1>
-            <p class="mb-4">
-              Descripción: <br />
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
-            </p>
-          </div>
-          <div class="w-full md:w-1/2">
-            <ul class="list-group flex flex-col list-group-flush">
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Cargas </strong>
-                <span class="mb-0">
-                  {{ room.charge }}
-                </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Uso </strong>
-                <span class="mb-0"> {{ room.porcent }} % </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Kw </strong>
-                <span class="mb-0"> 211.4861 </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> A </strong>
-                <span class="mb-0"> 294.4 </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Estado </strong>
-                <span class="mb-0">
-                  <span
-                    class="py-[0.1875rem] px-[0.8125rem] text-xs rounded-[1.25rem] text-white leading-[1.5] inline-block border duration-500"
-                    :class="`bg-${room.status.class} border-${room.status.class}`"
-                  >
-                    {{ room.status.name }}
-                  </span>
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+        <i class="fa-solid fa-arrow-left"></i>
+        Regresar
+      </Link>
     </div>
+
+    <CardRoom
+      :room="room"
+      :idRoom="idRoom"
+      :totalTransformers="totalTransformers"
+      :totalKw="totalKw"
+      :totalA="totalA"
+      :edit="false"
+    />
+    <CardElectronic
+      :data="data"
+      :totalTablersDistro="totalTablersDistro"
+      :edit="false"
+    />
 
     <div class="card dz-tab-area">
       <div
@@ -218,29 +214,47 @@ let room = {
             </div>
             <div class="flex sm:flex-wrap md:flex-nowrap space-x-2">
               <div class="w-full md:w-1/2">
-                <InputLabel for="kw" value="kW" />
+                <InputLabel for="surge" value="sobretensión eléctrica" />
                 <TextInput
-                  id="kw"
-                  v-model="form.kw"
+                  id="surge"
+                  v-model="form.surge"
                   type="text"
                   autocomplete="off"
+                  placeholder="Ejemplo: 1.2"
                 />
-                <InputError :message="form.errors.kw" />
+                <InputError :message="form.errors.surge" />
               </div>
               <div class="w-full md:w-1/2">
-                <InputLabel for="a" value="A" />
+                <InputLabel for="voltage" value="Volataje(Referencia)" />
                 <TextInput
-                  id="a"
-                  v-model="form.a"
+                  id="voltage"
+                  v-model="form.voltage"
                   type="text"
                   autocomplete="off"
+                  placeholder="Ejemplo: 1232"
                 />
-                <InputError :message="form.errors.a" />
+                <InputError :message="form.errors.voltage" />
+              </div>
+              <div class="w-full md:w-1/2">
+                <InputLabel
+                  for="lightning_discharge"
+                  value="descarga electrica"
+                />
+                <TextInput
+                  id="lightning_discharge"
+                  v-model="form.lightning_discharge"
+                  type="text"
+                  autocomplete="off"
+                  placeholder="Ejemplo: 1"
+                />
+                <InputError :message="form.errors.lightning_discharge" />
               </div>
             </div>
             <div class="flex justify-around">
               <Link
-                :href="route('charge.directive.index')"
+                :href="
+                  route('charge.directive.show', { directive: idDirective })
+                "
                 class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-secondary text-white bg-secondary hover:bg-hover-secondary hover:border-hover-success duration-300 btn-xxs shadow"
               >
                 Cancelar
@@ -248,7 +262,7 @@ let room = {
               <button
                 class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-success text-white bg-success hover:bg-hover-success hover:border-hover-success duration-300 btn-xxs shadow"
               >
-                Crear carga derivada
+                Actualizar Tablero de distribuición
               </button>
             </div>
           </div>
