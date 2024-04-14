@@ -125,7 +125,8 @@ function deleteDerivada(id) {
                 <td
                   class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
                 >
-                  {{ sub_directive.charge_derivate.name }}
+                  <!-- {{ sub_directive.charge_derivate.name }} -->
+                  HOLA
                 </td>
                 <td
                   class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
