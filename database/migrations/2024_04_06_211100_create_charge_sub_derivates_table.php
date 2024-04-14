@@ -20,8 +20,6 @@ return new class extends Migration {
             $table->string('model');
             $table->string('capacity');
             $table->string('location')->nullable();
-            $table->float('lightning_discharge');
-            $table->float('surge');
             $table->timestamps();
             $table->softDeletes();
         });
