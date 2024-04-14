@@ -4,7 +4,12 @@ import { Link, router } from "@inertiajs/vue3";
 import { defineProps } from "vue";
 
 const props = defineProps({
-  charges: Array,
+    charges: {
+        type: Object,
+    },
+    room: {
+        type: Object,
+    },
 });
 
 function deleteDerivada(id) {
