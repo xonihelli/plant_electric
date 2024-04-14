@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ElectricCharge extends Model
 {
+    //transformadores
     use HasFactory, SoftDeletes;
 
     /**
@@ -21,16 +22,15 @@ class ElectricCharge extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
         'room_id',
         'name',
         'kw',
         'a',
-        'total_kw',
-        'total_a',
-        'fu_general',
-        'fu_kw',
-        'fu_a',
+        // 'total_kw',
+        // 'total_a',
+        // 'fu_general',
+        // 'fu_kw',
+        // 'fu_a',
         'measurement_date',
     ];
 
