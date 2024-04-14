@@ -36,7 +36,6 @@ function deleteDerivada(id) {
 </script>
 
 <template>
-  <AuthenticatedLayout>
     <div class="card dz-tab-area">
       <div
         class="card-header sm:flex justify-between items-center px-5 pt-6 relative z-[2] pb-0 block"
@@ -48,7 +47,7 @@ function deleteDerivada(id) {
           class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-success text-white bg-success hover:bg-hover-success hover:border-hover-success duration-300 btn-xxs shadow"
         >
           <i class="fa-solid fa-plus"></i>
-          Agregar
+          Agregar carga
         </Link>
       </div>
       <div class="sm:p-5 p-4">
@@ -215,7 +214,6 @@ function deleteDerivada(id) {
         </div>
       </div>
     </div>
-  </AuthenticatedLayout>
 </template>
 
 
