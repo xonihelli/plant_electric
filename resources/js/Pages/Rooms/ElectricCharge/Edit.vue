@@ -8,16 +8,10 @@ import { format } from "date-fns";
 import CardElectronic from "@/Components/Custom/CardElectronic.vue";
 import CardRoom from "@/Components/Custom/CardRoom.vue";
 
-let room = {
-    id: 1,
-    name: "cuarto #" + Math.floor(Math.random() * 1000),
-    description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    charge: Math.floor(Math.random() * 1000),
-    porcent: Math.floor(Math.random() * 100),
-};
-
 const props = defineProps({
+  room: {
+    type: Object,
+  },
   data: {
     type: Object,
     default: () => ({}),
@@ -29,6 +23,21 @@ const props = defineProps({
   electric_charge: {
     type: String,
   },
+  idRoom: {
+    type: String,
+  },
+  totalTransformers: {
+    type: Number,
+  },
+  totalKw: {
+    type: Number,
+  },
+  totalA: {
+    type: Number,
+  },
+  totalTablersDistro: {
+    type: Number,
+  },
 });
 
 const form = useForm({
@@ -36,11 +45,6 @@ const form = useForm({
   name: props.data.name ?? "",
   kw: props.data.kw ? props.data.kw.toString() : "",
   a: props.data.a ? props.data.a.toString() : "",
-  total_kw: props.data.total_kw ? props.data.total_kw.toString() : "",
-  total_a: props.data.total_a ? props.data.total_a.toString() : "",
-  fu_general: props.data.fu_general ? props.data.fu_general.toString() : "",
-  fu_kw: props.data.fu_kw ? props.data.fu_kw.toString() : "",
-  fu_a: props.data.fu_a ? props.data.fu_a.toString() : "",
   measurement_date: props.data.measurement_date
     ? format(new Date(props.data.measurement_date), "yyyy-MM-dd")
     : "",
@@ -53,11 +57,6 @@ const sendForm = () => {
   formData.append("name", form.name);
   formData.append("kw", form.kw);
   formData.append("a", form.a);
-  formData.append("total_kw", form.total_kw);
-  formData.append("total_a", form.total_a);
-  formData.append("fu_general", form.fu_general);
-  formData.append("fu_kw", form.fu_kw);
-  formData.append("fu_a", form.fu_a);
   formData.append("measurement_date", form.measurement_date);
 
   form.submit(
@@ -76,7 +75,7 @@ const sendForm = () => {
             icon: "success",
             title: "La información de la carga eléctrica ha sido actualizada",
           }).then(() => {
-            location.href = route("rooms.electric-charge.index");
+            location.href = route("rooms.room.show", { room: props.idRoom });
           });
         }
       },
@@ -87,47 +86,55 @@ const sendForm = () => {
 
 
 <template>
-<Head title="Editar Carga Eléctrica" />
+  <Head title="Editar Carga Eléctrica" />
   <AuthenticatedLayout>
-    <div class="page-titles dark:bg-[#242424] flex items-center justify-between relative border-b border-[#E6E6E6] dark:border-[#444444] flex-wrap z-[1] py-[0.6rem] sm:px-[1.95rem] px-[1.55rem] bg-white shadow mb-5">
-        <ol class="text-[13px] flex items-center flex-wrap bg-transparent">
-            <li>
-                <Link
-                    :href="route('rooms.room.index')"
-                    class="text-[#828690] dark:text-white text-[13px]
-                ">
-                    Cuartos
-                </Link>
-            </li>
-            <li
-                class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left "
-            >
-                <Link
-                    :href="route('rooms.room.show', rooms[0].id)"
-                    class="text-[#828690] dark:text-white text-[13px]"
-                >
-                    {{ rooms[0].name }}
-                </Link>
-            </li>
-            <li
-                class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left before:text-primary text-primary font-medium"
-            >
-                Tablero: {{ data.name }}
-            </li>
-        </ol>
-
-
-        <Link
-            class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
-            :href="route('rooms.room.show', rooms[0].id)"
+    <div
+      class="page-titles dark:bg-[#242424] flex items-center justify-between relative border-b border-[#E6E6E6] dark:border-[#444444] flex-wrap z-[1] py-[0.6rem] sm:px-[1.95rem] px-[1.55rem] bg-white shadow mb-5"
+    >
+      <ol class="text-[13px] flex items-center flex-wrap bg-transparent">
+        <li>
+          <Link
+            :href="route('rooms.room.index')"
+            class="text-[#828690] dark:text-white text-[13px]"
+          >
+            Cuartos
+          </Link>
+        </li>
+        <li
+          class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left"
         >
+          <Link
+            :href="route('rooms.room.show', { room: idRoom })"
+            class="text-[#828690] dark:text-white text-[13px]"
+          >
+            {{ room.name }}
+          </Link>
+        </li>
+        <li
+          class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left before:text-primary text-primary font-medium"
+        >
+          Transformador eléctrico: {{ data.name }}
+        </li>
+      </ol>
+
+      <Link
+        class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
+        :href="route('rooms.room.show', { room: idRoom })"
+      >
         <i class="fa-solid fa-arrow-left"></i>
         Regresar
       </Link>
     </div>
 
-    <CardRoom :room="rooms[0]" :edit="false"/>
-    <CardElectronic :data="data"/>
+    <CardRoom
+      :room="room"
+      :idRoom="idRoom"
+      :totalTransformers="totalTransformers"
+      :totalKw="totalKw"
+      :totalA="totalA"
+      :edit="false"
+    />
+    <CardElectronic :data="data" :totalTablersDistro="totalTablersDistro" />
 
     <div class="card">
       <form @submit.prevent="sendForm" class="form">
@@ -135,7 +142,7 @@ const sendForm = () => {
           class="card-header flex justify-between px-5 pt-6 relative z-[2] pb-0"
         >
           <h2 class="card-title text-sm font-bold">
-            Detalles de carga eléctrica
+            Detalles del transformador eléctrico
           </h2>
         </div>
         <div class="card-body sm:p-5 p-4 space-y-6">
@@ -181,7 +188,7 @@ const sendForm = () => {
 
           <!-- Fila 2 -->
           <div class="flex flex-wrap -mx-2">
-            <div class="w-full md:w-1/2 px-2 mb-4">
+            <div class="w-full md:w-1/4 px-2 mb-4">
               <!-- kW -->
               <div>
                 <InputLabel for="kw" value="kW" />
@@ -194,7 +201,7 @@ const sendForm = () => {
                 <InputError :message="form.errors.kw" />
               </div>
             </div>
-            <div class="w-full md:w-1/2 px-2 mb-4">
+            <div class="w-full md:w-1/4 px-2 mb-4">
               <!-- A -->
               <div>
                 <InputLabel for="a" value="A" />
@@ -207,88 +214,8 @@ const sendForm = () => {
                 <InputError :message="form.errors.a" />
               </div>
             </div>
-          </div>
-
-          <!-- Fila 3 -->
-
-          <div class="flex flex-wrap -mx-2">
             <div class="w-full md:w-1/2 px-2 mb-4">
-              <!-- TOTAL kW -->
-              <div>
-                <InputLabel for="total_kw" value="Total kW" />
-                <TextInput
-                  id="total_kw"
-                  v-model="form.total_kw"
-                  type="text"
-                  class="input-default"
-                />
-                <InputError :message="form.errors.total_kw" />
-              </div>
-            </div>
-            <div class="w-full md:w-1/2 px-2 mb-4">
-              <!-- TOTAL A -->
-              <div>
-                <InputLabel for="total_a" value="Total A" />
-                <TextInput
-                  id="total_a"
-                  v-model="form.total_a"
-                  type="text"
-                  class="input-default"
-                />
-                <InputError :message="form.errors.total_a" />
-              </div>
-            </div>
-          </div>
-
-          <!-- Fila 4 -->
-
-          <div class="flex flex-wrap -mx-2">
-            <div class="w-full md:w-1/2 px-2 mb-4">
-              <!-- General -->
-              <div>
-                <InputLabel for="fu_general" value="Fu General" />
-                <TextInput
-                  id="fu_general"
-                  v-model="form.fu_general"
-                  type="text"
-                  class="input-default"
-                />
-                <InputError :message="form.errors.fu_general" />
-              </div>
-            </div>
-            <div class="w-full md:w-1/2 px-2 mb-4">
-              <!-- FU KW -->
-              <div>
-                <InputLabel for="fu_kw" value="Fu Kw" />
-                <TextInput
-                  id="fu_kw"
-                  v-model="form.fu_kw"
-                  type="text"
-                  class="input-default"
-                />
-                <InputError :message="form.errors.fu_kw" />
-              </div>
-            </div>
-          </div>
-
-          <!-- Fila 5 -->
-
-          <div class="flex flex-wrap -mx-2">
-            <div class="w-full md:w-1/2 px-2 mb-4">
-              <!-- FU A -->
-              <div>
-                <InputLabel for="fu_a" value="Fu A" />
-                <TextInput
-                  id="fu_a"
-                  v-model="form.fu_a"
-                  type="text"
-                  class="input-default"
-                />
-                <InputError :message="form.errors.fu_a" />
-              </div>
-            </div>
-            <div class="w-full md:w-1/2 px-2 mb-4">
-              <!-- FU KW -->
+              <!-- measurement_date -->
               <div>
                 <InputLabel for="measurement_date" value="Fecha de medición" />
                 <TextInput
@@ -304,7 +231,7 @@ const sendForm = () => {
 
           <div class="flex justify-around">
             <Link
-                :href="route('rooms.room.show', rooms[0].id)"
+              :href="route('rooms.room.show', { room: props.idRoom })"
               class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-secondary text-white bg-secondary hover:bg-hover-secondary hover:border-hover-success duration-300 btn-xxs shadow"
             >
               Cancelar
@@ -312,7 +239,7 @@ const sendForm = () => {
             <button
               class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-success text-white bg-success hover:bg-hover-success hover:border-hover-success duration-300 btn-xxs shadow"
             >
-              Actualizar carga eléctrica
+              Actualizar el transformador eléctrico
             </button>
           </div>
         </div>
