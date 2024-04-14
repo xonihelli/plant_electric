@@ -15,11 +15,20 @@ class ElectricChargeController extends Controller
      */
     public function create()
     {
-
+        $room = session('room');
+        $idRoom = session('idRoom');
+        $totalTransformers = session('totalTransformers');
+        $totalKw = session('totalKw');
+        $totalA = session('totalA');
         $rooms = Room::all();
 
         return Inertia::render('Rooms/ElectricCharge/Create', [
+            'room' => $room,
             'rooms' => $rooms,
+            'totalA' => $totalA,
+            'idRoom' => $idRoom,
+            'totalKw' => $totalKw,
+            'totalTransformers' => $totalTransformers,
         ]);
     }
 
@@ -34,11 +43,6 @@ class ElectricChargeController extends Controller
                 'name' => 'required|string|max:255',
                 'kw' => 'required|numeric',
                 'a' => 'required|numeric',
-                'total_kw' => 'required|numeric',
-                'total_a' => 'required|numeric',
-                'fu_general' => 'required|numeric',
-                'fu_kw' => 'required|numeric',
-                'fu_a' => 'required|numeric',
                 'measurement_date' => 'required|date',
             ],
             [
@@ -51,16 +55,6 @@ class ElectricChargeController extends Controller
                 'kw.numeric' => 'El campo kw debe ser un número',
                 'a.required' => 'El campo a es obligatorio',
                 'a.numeric' => 'El campo a debe ser un número',
-                'total_kw.required' => 'El campo total_kw es obligatorio',
-                'total_kw.numeric' => 'El campo total_kw debe ser un número',
-                'total_a.required' => 'El campo total_a es obligatorio',
-                'total_a.numeric' => 'El campo total_a debe ser un número',
-                'fu_general.required' => 'El campo fu_general es obligatorio',
-                'fu_general.numeric' => 'El campo fu_general debe ser un número',
-                'fu_kw.required' => 'El campo fu_kw es obligatorio',
-                'fu_kw.numeric' => 'El campo fu_kw debe ser un número',
-                'fu_a.required' => 'El campo fu_a es obligatorio',
-                'fu_a.numeric' => 'El campo fu_a debe ser un número',
                 'measurement_date.required' => 'El campo measurement_date es obligatorio',
                 'measurement_date.date' => 'El campo measurement_date debe ser una fecha',
             ]
@@ -71,23 +65,10 @@ class ElectricChargeController extends Controller
         $charge->name = $request->name;
         $charge->kw = $request->kw;
         $charge->a = $request->a;
-        $charge->total_kw = $request->total_kw;
-        $charge->total_a = $request->total_a;
-        $charge->fu_general = $request->fu_general;
-        $charge->fu_kw = $request->fu_kw;
-        $charge->fu_a = $request->fu_a;
         $charge->measurement_date = $request->measurement_date;
         $charge->save();
 
-        return redirect()->route('rooms.room.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return redirect()->route('rooms.room.show', ['room' => $request->room_id]);
     }
 
     /**
@@ -95,12 +76,29 @@ class ElectricChargeController extends Controller
      */
     public function edit(string $id)
     {
-        $charge = ElectricCharge::find($id);
+        $charge = ElectricCharge::with('chargeDerivates')->find($id);
+        session()->put('tablero', $charge);
+
+        $totalTablersDistro = $charge->chargeDerivates->count();
+        session()->put('totalTablersDistro', $totalTablersDistro);
+
         $rooms = Room::all();
+        $room = session('room');
+        $idRoom = session('idRoom');
+        $totalTransformers = session('totalTransformers');
+        $totalKw = session('totalKw');
+        $totalA = session('totalA');
+
         return Inertia::render('Rooms/ElectricCharge/Edit', [
             'data' => $charge,
-            'rooms' => $rooms,
             'electric_charge' => $id,
+            'room' => $room,
+            'rooms' => $rooms,
+            'totalA' => $totalA,
+            'idRoom' => $idRoom,
+            'totalKw' => $totalKw,
+            'totalTransformers' => $totalTransformers,
+            'totalTablersDistro' => $totalTablersDistro,
         ]);
     }
 
@@ -115,11 +113,6 @@ class ElectricChargeController extends Controller
                 'name' => 'required|string|max:255',
                 'kw' => 'required|numeric',
                 'a' => 'required|numeric',
-                'total_kw' => 'required|numeric',
-                'total_a' => 'required|numeric',
-                'fu_general' => 'required|numeric',
-                'fu_kw' => 'required|numeric',
-                'fu_a' => 'required|numeric',
                 'measurement_date' => 'required|date',
             ],
             [
@@ -132,16 +125,6 @@ class ElectricChargeController extends Controller
                 'kw.numeric' => 'El campo kw debe ser un número',
                 'a.required' => 'El campo a es obligatorio',
                 'a.numeric' => 'El campo a debe ser un número',
-                'total_kw.required' => 'El campo total_kw es obligatorio',
-                'total_kw.numeric' => 'El campo total_kw debe ser un número',
-                'total_a.required' => 'El campo total_a es obligatorio',
-                'total_a.numeric' => 'El campo total_a debe ser un número',
-                'fu_general.required' => 'El campo fu_general es obligatorio',
-                'fu_general.numeric' => 'El campo fu_general debe ser un número',
-                'fu_kw.required' => 'El campo fu_kw es obligatorio',
-                'fu_kw.numeric' => 'El campo fu_kw debe ser un número',
-                'fu_a.required' => 'El campo fu_a es obligatorio',
-                'fu_a.numeric' => 'El campo fu_a debe ser un número',
                 'measurement_date.required' => 'El campo measurement_date es obligatorio',
                 'measurement_date.date' => 'El campo measurement_date debe ser una fecha',
             ]
@@ -152,15 +135,11 @@ class ElectricChargeController extends Controller
         $charge->name = $request->name;
         $charge->kw = $request->kw;
         $charge->a = $request->a;
-        $charge->total_kw = $request->total_kw;
-        $charge->total_a = $request->total_a;
-        $charge->fu_general = $request->fu_general;
-        $charge->fu_kw = $request->fu_kw;
-        $charge->fu_a = $request->fu_a;
         $charge->measurement_date = $request->measurement_date;
         $charge->save();
 
-        return redirect()->route('rooms.room.index');
+        return redirect()->route('rooms.room.show', ['room' => $request->room_id]);
+
     }
 
     /**
@@ -168,9 +147,22 @@ class ElectricChargeController extends Controller
      */
     public function destroy(string $id)
     {
-        $charge = ElectricCharge::find($id);
+        $charge = ElectricCharge::with('chargeDerivates')->find($id);
+
+        if (!$charge) {
+            // Si el transformador no se encuentra, redirige con un mensaje de error.
+            return redirect()->route('rooms.room.index')->with('error', 'El transformador no fue encontrado.');
+        }
+
+        if ($charge->chargeDerivates->isNotEmpty()) {
+            // Si el transformador tiene tableros de distribución asociados, no permitir eliminarlo.
+            return redirect()->route('rooms.room.index')->with('error', 'No se puede eliminar el transformador porque tiene tableros de distribución asociados.');
+        }
+
+        // Si no hay tableros asociados, proceder a eliminar el transformador.
         $charge->delete();
 
-        return redirect()->route('rooms.room.index');
+        return redirect()->route('rooms.room.index')->with('success', 'Transformador eliminado exitosamente.');
     }
+
 }
