@@ -4,12 +4,12 @@ import { Link, router } from "@inertiajs/vue3";
 import { defineProps } from "vue";
 
 const props = defineProps({
-    charges: {
-        type: Object,
-    },
-    room: {
-        type: Object,
-    },
+  charges: {
+    type: Object,
+  },
+  room: {
+    type: Object,
+  },
 });
 
 function deleteDerivada(id) {
@@ -36,7 +36,6 @@ function deleteDerivada(id) {
 </script>
 
 <template>
-
   <div class="overflow-x-auto table-scroll">
     <table id="example" class="display table pb-8 w-full">
       <thead>
@@ -119,27 +118,27 @@ function deleteDerivada(id) {
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
           >
-            {{ charge.total_kw }}
+            {{ charge.total_kw ?? "No disponible" }}
           </td>
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
           >
-            {{ charge.total_a }}
+            {{ charge.total_a ?? "No disponible" }}
           </td>
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
           >
-            {{ charge.fu_general }}
+            {{ charge.fu_general ?? "No disponible" }}
           </td>
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
           >
-            {{ charge.fu_kw }}
+            {{ charge.fu_kw ?? "No disponible" }}
           </td>
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
           >
-            {{ charge.fu_a }}
+            {{ charge.fu_a ?? "No disponible" }}
           </td>
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
@@ -159,18 +158,20 @@ function deleteDerivada(id) {
           </td>
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
-            >
+          >
             <div class="flex items-center">
-                <div class="progress bg-[#f6f6f6] dark:bg-[#1E1E1E] mr-[5px] h-[5px] overflow-hidden flex-1">
-                    <div
-                        class="progress-bar bg-primary"
-                        style="width:80%; height:5px; border-radius:4px;"
-                        role="progressbar"
-                    ></div>
-                </div>
-                <span class="text-primary">53%</span>
+              <div
+                class="progress bg-[#f6f6f6] dark:bg-[#1E1E1E] mr-[5px] h-[5px] overflow-hidden flex-1"
+              >
+                <div
+                  class="progress-bar bg-primary"
+                  style="width: 80%; height: 5px; border-radius: 4px"
+                  role="progressbar"
+                ></div>
+              </div>
+              <span class="text-primary">53%</span>
             </div>
-        </td>
+          </td>
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
           >
@@ -184,7 +185,6 @@ function deleteDerivada(id) {
                 class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
               >
                 <i class="fa-solid fa-pen"></i>
-                Editar
               </Link>
 
               <Link
@@ -192,15 +192,12 @@ function deleteDerivada(id) {
                 class="btn btn-info inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-info text-white bg-info hover:bg-hover-info hover:border-hover-info duration-300 btn-xxs shadow"
               >
                 <i class="fa-solid fa-eye"></i>
-                Ver Tablero
               </Link>
-
               <button
                 @click="deleteDerivada(charge.id)"
                 class="btn btn-danger inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-danger text-white bg-danger hover:bg-hover-danger hover:border-hover-danger duration-300 btn-xxs shadow"
               >
                 <i class="fa-solid fa-trash"></i>
-                Elimniar
               </button>
             </div>
           </td>
