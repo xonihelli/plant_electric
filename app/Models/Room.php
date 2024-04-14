@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Room extends Model
 {
+    //cuartos electricos
     use HasFactory, SoftDeletes;
 
     /**
