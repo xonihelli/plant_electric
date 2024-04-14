@@ -7,6 +7,7 @@ use App\Models\ChargeDerivate;
 use App\Models\ElectricCharge;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
 
 class ChargeDerivateController extends Controller
 {
@@ -16,10 +17,12 @@ class ChargeDerivateController extends Controller
     public function index()
     {
         $chargeDerivates = ChargeDerivate::with('electricCharge')->get();
+
         return Inertia::render(
             'Charges/ChargeDerivate/Index',
             [
                 'data' => $chargeDerivates,
+
             ]
         );
     }
@@ -31,10 +34,27 @@ class ChargeDerivateController extends Controller
     {
         $electricCharges = ElectricCharge::all();
 
+        $room = session('room');
+        $idRoom = session('idRoom');
+        $totalTransformers = session('totalTransformers');
+        $totalTablersDistro = session()->get('totalTablersDistro', 0);
+        $totalKw = session('totalKw');
+        $totalA = session('totalA');
+        $idDirective = session('tablero')->id;
+        $transoformador = session('tablero');
+
         return Inertia::render(
             'Charges/ChargeDerivate/Create',
             [
                 'electricCharges' => $electricCharges,
+                'totalTablersDistro' => $totalTablersDistro,
+                'totalTransformers' => $totalTransformers,
+                'room' => $room,
+                'idRoom' => $idRoom,
+                'totalA' => $totalA,
+                'totalKw' => $totalKw,
+                'idDirective' => $idDirective,
+                'transoformador' => $transoformador,
             ]
         );
     }
@@ -49,8 +69,9 @@ class ChargeDerivateController extends Controller
                 'electric_charge_id' => 'required|integer',
                 'name_technical' => 'required|string|max:255',
                 'name' => 'required|string|max:255',
-                'kw' => 'required|numeric',
-                'a' => 'required|numeric',
+                'surge' => 'numeric',
+                'voltage' => 'numeric',
+                'lightning_discharge' => 'numeric',
             ],
             [
                 'electric_charge_id.required' => 'El campo electric_charge_id es obligatorio',
@@ -61,10 +82,9 @@ class ChargeDerivateController extends Controller
                 'name.required' => 'El campo name es obligatorio',
                 'name.string' => 'El campo name debe ser una cadena de texto',
                 'name.max' => 'El campo name debe tener un máximo de 255 caracteres',
-                'kw.required' => 'El campo kw es obligatorio',
-                'kw.numeric' => 'El campo kw debe ser un número',
-                'a.required' => 'El campo a es obligatorio',
-                'a.numeric' => 'El campo a debe ser un número',
+                'surge.numeric' => 'El campo surge debe ser un número decimal',
+                'voltage.numeric' => 'El campo voltage debe ser un número decimal',
+                'lightning_discharge.numeric' => 'El campo lightning_discharge debe ser un número decimal',
             ]
         );
 
@@ -72,11 +92,12 @@ class ChargeDerivateController extends Controller
         $charge->electric_charge_id = $request->electric_charge_id;
         $charge->name_technical = $request->name_technical;
         $charge->name = $request->name;
-        $charge->kw = $request->kw;
-        $charge->a = $request->a;
+        $charge->surge = $request->surge;
+        $charge->voltage = $request->voltage;
+        $charge->lightning_discharge = $request->lightning_discharge;
         $charge->save();
 
-        return redirect()->route('charge.directive.index');
+        return redirect()->route('charge.directive.show', ['directive' => $request->electric_charge_id]);
     }
 
     /**
@@ -87,10 +108,26 @@ class ChargeDerivateController extends Controller
         // $charge = ChargeDerivate::findOrFail($id);
         $charge = ChargeDerivate::where('electric_charge_id', $id)->get();
 
+        $tablero = session()->get('tablero');
+        $room = session('room');
+        $idRoom = session('idRoom');
+        $totalA = session('totalA');
+        $totalKw = session('totalKw');
+        $totalTransformers = session('totalTransformers');
+        $totalTablersDistro = session()->get('totalTablersDistro', 0);
+
+
         return Inertia::render(
             'Charges/ChargeDerivate/Show',
             [
-                'data' => $charge,
+                'data' => $tablero,
+                'charge' => $charge,
+                'room' => $room,
+                'idRoom' => $idRoom,
+                'totalA' => $totalA,
+                'totalKw' => $totalKw,
+                'totalTransformers' => $totalTransformers,
+                'totalTablersDistro' => $totalTablersDistro,
             ]
         );
     }
@@ -103,11 +140,29 @@ class ChargeDerivateController extends Controller
         $chargeDerivate = ChargeDerivate::find($id);
         $electricCharges = ElectricCharge::all();
 
+        $room = session('room');
+        $idRoom = session('idRoom');
+        $totalTransformers = session('totalTransformers');
+        $totalTablersDistro = session()->get('totalTablersDistro', 0);
+        $totalKw = session('totalKw');
+        $totalA = session('totalA');
+        $idDirective = session('tablero')->id;
+        $transoformador = session('tablero');
+
         return Inertia::render(
             'Charges/ChargeDerivate/Edit',
             [
                 'data' => $chargeDerivate,
                 'electricCharges' => $electricCharges,
+
+                'totalTablersDistro' => $totalTablersDistro,
+                'totalTransformers' => $totalTransformers,
+                'room' => $room,
+                'idRoom' => $idRoom,
+                'totalA' => $totalA,
+                'totalKw' => $totalKw,
+                'idDirective' => $idDirective,
+                'transoformador' => $transoformador,
             ]
         );
     }
@@ -122,8 +177,9 @@ class ChargeDerivateController extends Controller
                 'electric_charge_id' => 'required|integer',
                 'name_technical' => 'required|string|max:255',
                 'name' => 'required|string|max:255',
-                'kw' => 'required|numeric',
-                'a' => 'required|numeric',
+                'surge' => 'numeric',
+                'voltage' => 'numeric',
+                'lightning_discharge' => 'numeric',
             ],
             [
                 'electric_charge_id.required' => 'El campo electric_charge_id es obligatorio',
@@ -134,10 +190,9 @@ class ChargeDerivateController extends Controller
                 'name.required' => 'El campo name es obligatorio',
                 'name.string' => 'El campo name debe ser una cadena de texto',
                 'name.max' => 'El campo name debe tener un máximo de 255 caracteres',
-                'kw.required' => 'El campo kw es obligatorio',
-                'kw.numeric' => 'El campo kw debe ser un número',
-                'a.required' => 'El campo a es obligatorio',
-                'a.numeric' => 'El campo a debe ser un número',
+                'surge.numeric' => 'El campo surge debe ser un número decimal',
+                'voltage.numeric' => 'El campo voltage debe ser un número decimal',
+                'lightning_discharge.numeric' => 'El campo lightning_discharge debe ser un número decimal',
             ]
         );
 
@@ -145,11 +200,13 @@ class ChargeDerivateController extends Controller
         $charge->electric_charge_id = $request->electric_charge_id;
         $charge->name_technical = $request->name_technical;
         $charge->name = $request->name;
-        $charge->kw = $request->kw;
-        $charge->a = $request->a;
+        $charge->surge = $request->surge;
+        $charge->voltage = $request->voltage;
+        $charge->lightning_discharge = $request->lightning_discharge;
         $charge->save();
 
-        return redirect()->route('charge.directive.index');
+        return redirect()->route('charge.directive.show', ['directive' => $request->electric_charge_id]);
+
     }
 
     /**
@@ -160,6 +217,6 @@ class ChargeDerivateController extends Controller
         $charge = ChargeDerivate::find($id);
         $charge->delete();
 
-        return redirect()->route('charge.directive.index');
+        return redirect()->route('charge.directive.show', ['directive' => $charge->electric_charge_id]);
     }
 }
