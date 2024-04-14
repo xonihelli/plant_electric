@@ -48,6 +48,7 @@ const sendForm = () => {
               v-model="form.name"
               type="text"
               autocomplete="name"
+              placeholder="Nombre del cuarto"
             />
           </div>
           <div>
@@ -56,6 +57,7 @@ const sendForm = () => {
               class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 focus:border-primary dark:hover:border-b-color outline-none w-full input-default"
               id="description"
               v-model="form.description"
+              placeholder="Descripción"
             ></textarea>
           </div>
 
