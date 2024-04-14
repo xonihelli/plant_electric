@@ -2,187 +2,73 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import SubChargeDerivateIndex from "@/Pages/Charges/ChargeSubDerivate/Index.vue";
 import { Link, router } from "@inertiajs/vue3";
+import CardRoom from "@/Components/Custom/CardRoom.vue";
+import CardElectronic from "@/Components/Custom/CardElectronic.vue";
 
-let prop = defineProps({
-    charges: {
-        type: Object,
-    },
-    room: {
-        type: Object,
-    },
-});
+let room = {
+    id: 1,
+    name: "cuarto #" + Math.floor(Math.random() * 1000),
+    description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    charge: Math.floor(Math.random() * 1000),
+    porcent: Math.floor(Math.random() * 100),
+};
 
+let charges = {
+    id: 1,
+    name: "Derivada #" + Math.floor(Math.random() * 1000),
+    description:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    charge: Math.floor(Math.random() * 1000),
+    porcent: Math.floor(Math.random() * 100),
+};
 
 </script>
 <template>
   <AuthenticatedLayout>
-    <div class="flex justify-end mb-4">
-      <Link
-        class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
-        :href="route('rooms.room.show', { room: 0 })"
-      >
+    <div class="page-titles dark:bg-[#242424] flex items-center justify-between relative border-b border-[#E6E6E6] dark:border-[#444444] flex-wrap z-[1] py-[0.6rem] sm:px-[1.95rem] px-[1.55rem] bg-white shadow mb-5">
+        <ol class="text-[13px] flex items-center flex-wrap bg-transparent">
+            <li>
+                <Link
+                    :href="route('rooms.room.index')"
+                    class="text-[#828690] dark:text-white text-[13px]
+                ">
+                    Cuartos
+                </Link>
+            </li>
+            <li
+                class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left font-medium"
+            >
+                {{ room.name }}
+            </li>
+            <li
+                class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left before:text-primary text-primary font-medium"
+            >
+                Detalles de tablero: {{ room.name }}
+            </li>
+        </ol>
+
+
+        <Link
+            class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
+            :href="route('rooms.room.index')"
+        >
         <i class="fa-solid fa-arrow-left"></i>
         Regresar
       </Link>
     </div>
 
     <!-- Cuarto -->
-    <div class="card">
-      <div
-        class="card-header flex justify-between px-5 pt-6 relative z-[2] pb-0"
-      >
-        <h2 class="card-title text-base">Detalles de cuarto</h2>
-      </div>
-      <div class="card-body sm:p-5 p-4 sm:pb-0 pb-0">
-        <div class="flex flex-wrap w-full">
-          <div class="w-full md:w-1/2">
-            <h1 class="mb-4 text-md font-semibold">
-              <i class="fa-solid fa-house mr-2"></i>
-              {{ room.name }}
-            </h1>
-            <p class="mb-4">
-              Descripción: <br />
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
-            </p>
-          </div>
-          <div class="w-full md:w-1/2">
-            <ul class="list-group flex flex-col list-group-flush">
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Cargas </strong>
-                <span class="mb-0">
-                  {{ room.charge }}
-                </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Uso </strong>
-                <span class="mb-0"> {{ room.porcent }} % </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Kw </strong>
-                <span class="mb-0"> 211.4861 </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> A </strong>
-                <span class="mb-0"> 294.4 </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Estado </strong>
-                <span class="mb-0">
-                  <span
-                    class="py-[0.1875rem] px-[0.8125rem] text-xs rounded-[1.25rem] text-white leading-[1.5] inline-block border duration-500"
-                    :class="`bg-${room.status.class} border-${room.status.class}`"
-                  >
-                    {{ room.status.name }}
-                  </span>
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    <CardRoom :room="room" :edit="false" />
+
     <!-- Cuarto -->
 
     <!-- Derivada -->
-    <div class="card">
-      <div
-        class="card-header flex justify-between px-5 pt-6 relative z-[2] pb-0"
-      >
-        <h2 class="card-title text-base">Detalles de derivada</h2>
-      </div>
-      <div class="card-body sm:p-5 p-4 sm:pb-0 pb-0">
-        <div class="flex flex-wrap w-full">
-          <div class="w-full md:w-1/2">
-            <h1 class="mb-4 text-md font-semibold">
-              <i class="fa-solid fa-house mr-2"></i>
-              {{ room.name }}
-            </h1>
-            <p class="mb-4">
-              Descripción: <br />
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
-            </p>
-          </div>
-          <div class="w-full md:w-1/2">
-            <ul class="list-group flex flex-col list-group-flush">
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Cargas </strong>
-                <span class="mb-0">
-                  {{ room.charge }}
-                </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Uso </strong>
-                <span class="mb-0"> {{ room.porcent }} % </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Kw </strong>
-                <span class="mb-0"> 211.4861 </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> A </strong>
-                <span class="mb-0"> 294.4 </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Estado </strong>
-                <span class="mb-0">
-                  <span
-                    class="py-[0.1875rem] px-[0.8125rem] text-xs rounded-[1.25rem] text-white leading-[1.5] inline-block border duration-500"
-                    :class="`bg-${room.status.class} border-${room.status.class}`"
-                  >
-                    {{ room.status.name }}
-                  </span>
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    <CardElectronic :data="charges" :edit="false" />
     <!-- Derivada -->
 
     <!-- Sub derivadas -->
-    <div class="card dz-tab-area">
-      <div
-        class="card-header sm:flex justify-between items-center px-5 pt-6 relative z-[2] pb-0 block"
-      >
-        <h4 class="card-title capitalize">Sub Cargas derivadas</h4>
-
-        <Link
-          :href="route('charge.directive.store', { room: 0 })"
-          class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-success text-white bg-success hover:bg-hover-success hover:border-hover-success duration-300 btn-xxs shadow"
-        >
-          <i class="fa-solid fa-plus"></i>
-          Agregar
-        </Link>
-      </div>
-      <div class="sm:p-5 p-4">
-        <div class="table-responsive">
-          <SubChargeDerivateIndex />
-        </div>
-      </div>
-    </div>
+    <SubChargeDerivateIndex/>
     <!-- Sub derivadas -->
   </AuthenticatedLayout>
 </template>
