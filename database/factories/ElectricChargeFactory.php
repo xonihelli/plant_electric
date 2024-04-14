@@ -27,11 +27,11 @@ class ElectricChargeFactory extends Factory
             'name' => $this->faker->word,
             'kw' => $this->faker->randomFloat(2, 0, 100),
             'a' => $this->faker->randomFloat(2, 0, 100),
-            'total_kw' => $this->faker->randomFloat(2, 0, 100),
-            'total_a' => $this->faker->randomFloat(2, 0, 100),
-            'fu_general' => $this->faker->randomFloat(2, 0, 100),
-            'fu_kw' => $this->faker->randomFloat(2, 0, 100),
-            'fu_a' => $this->faker->randomFloat(2, 0, 100),
+            // 'total_kw' => $this->faker->randomFloat(2, 0, 100),
+            // 'total_a' => $this->faker->randomFloat(2, 0, 100),
+            // 'fu_general' => $this->faker->randomFloat(2, 0, 100),
+            // 'fu_kw' => $this->faker->randomFloat(2, 0, 100),
+            // 'fu_a' => $this->faker->randomFloat(2, 0, 100),
             'measurement_date' => $this->faker->dateTime(),
         ];
     }
