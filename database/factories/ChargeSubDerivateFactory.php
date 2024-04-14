@@ -32,8 +32,6 @@ class ChargeSubDerivateFactory extends Factory
             'model' => $this->faker->word,
             'capacity' => $this->faker->randomFloat(2, 0, 100),
             'location' => $this->faker->word,
-            'lightning_discharge' => $this->faker->randomFloat(2, 0, 100),
-            'surge' => $this->faker->randomFloat(2, 0, 100),
         ];
     }
 }
