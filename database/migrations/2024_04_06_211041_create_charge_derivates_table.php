@@ -15,8 +15,11 @@ return new class extends Migration {
             $table->foreignId('electric_charge_id')->constrained();
             $table->string('name_technical')->nullable();
             $table->string('name');
-            $table->float('kw');
-            $table->float('a');
+            $table->float('kw')->nullable();
+            $table->float('a')->nullable();
+            $table->float('surge')->nullable();
+            $table->float('voltage')->nullable();
+            $table->float('lightning_discharge')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
