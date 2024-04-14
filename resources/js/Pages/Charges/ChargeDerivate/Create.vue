@@ -5,41 +5,59 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Link, useForm } from "@inertiajs/vue3";
-
 import CardRoom from "@/Components/Custom/CardRoom.vue";
 import CardElectronic from "@/Components/Custom/CardElectronic.vue";
 
-let room = {
-    id: 1,
-    name: "cuarto #" + Math.floor(Math.random() * 1000),
-    description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    charge: Math.floor(Math.random() * 1000),
-    porcent: Math.floor(Math.random() * 100),
-};
-
-let charges = {
-    id: 1,
-    name: "Derivada #" + Math.floor(Math.random() * 1000),
-    description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    charge: Math.floor(Math.random() * 1000),
-    porcent: Math.floor(Math.random() * 100),
-};
-
 const props = defineProps({
+  transoformador: {
+    type: Object,
+    default: () => ({}),
+  },
   electricCharges: {
     type: Object,
     default: () => ({}),
   },
+  data: {
+    type: Object,
+    default: () => ({}),
+  },
+  room: {
+    type: Object,
+    default: () => ({}),
+  },
+  idRoom: {
+    type: String,
+    required: true,
+  },
+  idDirective: {
+    type: Number,
+    required: true,
+  },
+  totalTransformers: {
+    type: Number,
+    required: true,
+  },
+  totalKw: {
+    type: Number,
+    required: true,
+  },
+  totalA: {
+    type: Number,
+    required: true,
+  },
+  totalTablersDistro: {
+    type: Number,
+    required: true,
+  },
 });
 
 const form = useForm({
+  lightning_discharge: "",
   electric_charge_id: "",
   name_technical: "",
+  voltage: "",
+  surge: "",
   name: "",
-  kw: "",
-  a: "",
 });
 
 const sendForm = () => {
@@ -55,82 +73,72 @@ const sendForm = () => {
           icon: "success",
           title: "La información del tablero de distribuición ha sido creada",
         }).then(() => {
-          location.href("charge.directive.index");
+          location.href("charge.directive.show", { directive: idDirective });
         });
       }
     },
   });
 };
-
-let status = [
-  {
-    id: 1,
-    name: "bueno",
-    class: "success",
-    icon: "fa-solid fa-check",
-  },
-  {
-    id: 1,
-    name: "peligroso",
-    class: "warning",
-    icon: "fa-solid fa-triangle-exclamation",
-  },
-  {
-    id: 1,
-    name: "malo",
-    class: "success",
-    icon: "fa-solid fa-xmark",
-  },
-];
-
 </script>
 
 <template>
   <AuthenticatedLayout>
-    <div class="page-titles dark:bg-[#242424] flex items-center justify-between relative border-b border-[#E6E6E6] dark:border-[#444444] flex-wrap z-[1] py-[0.6rem] sm:px-[1.95rem] px-[1.55rem] bg-white shadow mb-5">
-        <ol class="text-[13px] flex items-center flex-wrap bg-transparent">
-            <li>
-                <Link
-                    :href="route('rooms.room.index')"
-                    class="text-[#828690] dark:text-white text-[13px]
-                ">
-                    Cuartos
-                </Link>
-            </li>
-            <li
-                class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left "
-            >
-                <Link
-                    :href="route('rooms.room.show', 1)"
-                    class="text-[#828690] dark:text-white text-[13px]"
-                >
-                    Nombre del cuarto
-                </Link>
-            </li>
-            <li
-                class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left before:text-primary text-primary font-medium"
-            >
-                tablero
-            </li>
-            <li
-                class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left before:text-primary text-primary font-medium"
-            >
-                Agregar carga
-            </li>
-        </ol>
-
-
-        <Link
-            class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
-            :href="route('rooms.room.show', 1)"
+    <div
+      class="page-titles dark:bg-[#242424] flex items-center justify-between relative border-b border-[#E6E6E6] dark:border-[#444444] flex-wrap z-[1] py-[0.6rem] sm:px-[1.95rem] px-[1.55rem] bg-white shadow mb-5"
+    >
+      <ol class="text-[13px] flex items-center flex-wrap bg-transparent">
+        <li>
+          <Link
+            :href="route('rooms.room.index')"
+            class="text-[#828690] dark:text-white text-[13px]"
+          >
+            Cuartos
+          </Link>
+        </li>
+        <li
+          class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left"
         >
+          <Link
+            :href="route('rooms.room.show', { room: idRoom })"
+            class="text-[#828690] dark:text-white text-[13px]"
+          >
+            {{ room.name }}
+          </Link>
+        </li>
+        <li
+          class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left before:text-primary text-primary font-medium"
+        >
+          {{ transoformador.name }}
+        </li>
+        <li
+          class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left before:text-primary text-primary font-medium"
+        >
+          Agregar tablero de distribuición
+        </li>
+      </ol>
+
+      <Link
+        class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
+        :href="route('charge.directive.show', { directive: idDirective })"
+      >
         <i class="fa-solid fa-arrow-left"></i>
         Regresar
       </Link>
     </div>
 
-    <CardRoom :room="room" :edit="false" />
-    <CardElectronic :data="charges" :edit="false" />
+    <CardRoom
+      :room="room"
+      :idRoom="idRoom"
+      :totalTransformers="totalTransformers"
+      :totalKw="totalKw"
+      :totalA="totalA"
+      :edit="false"
+    />
+    <CardElectronic
+      :data="data"
+      :totalTablersDistro="totalTablersDistro"
+      :edit="false"
+    />
 
     <div class="card dz-tab-area">
       <div
@@ -182,6 +190,7 @@ let status = [
                   v-model="form.name_technical"
                   type="text"
                   autocomplete="off"
+                  placeholder="Ejemplo: SVOC 2.1"
                 />
                 <InputError :message="form.errors.name_technical" />
               </div>
@@ -192,37 +201,52 @@ let status = [
                   v-model="form.name"
                   type="text"
                   autocomplete="off"
+                  placeholder="Ejemplo: Tablero de distribuición 1"
                 />
                 <InputError :message="form.errors.name" />
               </div>
             </div>
+
             <div class="flex sm:flex-wrap md:flex-nowrap space-x-2">
               <div class="w-full md:w-1/2">
-                <InputLabel for="kw" value="kW" />
+                <InputLabel for="surge" value="sobretensión eléctrica" />
                 <TextInput
-                  id="kw"
-                  v-model="form.kw"
+                  id="surge"
+                  v-model="form.surge"
                   type="text"
                   autocomplete="off"
+                  placeholder="Ejemplo: 1.2"
                 />
-                <InputError :message="form.errors.kw" />
+                <InputError :message="form.errors.surge" />
               </div>
               <div class="w-full md:w-1/2">
-                <InputLabel for="a" value="A" />
+                <InputLabel for="voltage" value="Volataje(Referencia)" />
                 <TextInput
-                  id="a"
-                  v-model="form.a"
+                  id="voltage"
+                  v-model="form.voltage"
                   type="text"
                   autocomplete="off"
+                  placeholder="Ejemplo: 1232"
                 />
-                <InputError :message="form.errors.a" />
+                <InputError :message="form.errors.voltage" />
+              </div>
+              <div class="w-full md:w-1/2">
+                <InputLabel
+                  for="lightning_discharge"
+                  value="descarga electrica"
+                />
+                <TextInput
+                  id="lightning_discharge"
+                  v-model="form.lightning_discharge"
+                  type="text"
+                  autocomplete="off"
+                  placeholder="Ejemplo: 1"
+                />
+                <InputError :message="form.errors.lightning_discharge" />
               </div>
             </div>
             <div class="flex justify-around">
-              <Link
-                :href="route('charge.directive.index')"
-                class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-secondary text-white bg-secondary hover:bg-hover-secondary hover:border-hover-success duration-300 btn-xxs shadow"
-              >
+
                 Cancelar
               </Link>
               <button
