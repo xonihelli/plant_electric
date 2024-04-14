@@ -29,6 +29,9 @@ class ChargeDerivateFactory extends Factory
             'name' => $this->faker->word,
             'kw' => $this->faker->randomFloat(2, 0, 100),
             'a' => $this->faker->randomFloat(2, 0, 100),
+            'surge' => $this->faker->randomFloat(2, 0, 100),
+            'voltage' => $this->faker->randomFloat(2, 0, 100),
+            'lightning_discharge' => $this->faker->randomFloat(2, 0, 100),
         ];
     }
 }
