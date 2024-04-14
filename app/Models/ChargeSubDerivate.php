@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChargeSubDerivate extends Model
 {
+    //cargas electricas
     use HasFactory, SoftDeletes;
 
     /**
@@ -29,8 +30,6 @@ class ChargeSubDerivate extends Model
         'brand',
         'model',
         'capacity',
-        'location',
-        'lightning_discharge',
         'surge'
     ];
 
