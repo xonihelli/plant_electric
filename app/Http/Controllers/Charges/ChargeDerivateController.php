@@ -17,7 +17,6 @@ class ChargeDerivateController extends Controller
     public function index()
     {
         $chargeDerivates = ChargeDerivate::with('electricCharge')->get();
-
         session()->put([
             'transformadores' => $chargeDerivates,
         ]);
@@ -39,13 +38,14 @@ class ChargeDerivateController extends Controller
         $electricCharges = ElectricCharge::all();
         $room = session('room');
         $idRoom = session('idRoom');
-        $transformadores = session('transformadores');
         $totalTransformers = session('totalTransformers');
         $totalTablersDistro = session()->get('totalTablersDistro', 0);
         $totalKw = session('totalKw');
         $totalA = session('totalA');
         $idDirective = session('tablero')->id;
         $transoformador = session('tablero');
+        $tablero = session()->get('tablero');
+
 
         return Inertia::render(
             'Charges/ChargeDerivate/Create',
@@ -59,7 +59,8 @@ class ChargeDerivateController extends Controller
                 'totalKw' => $totalKw,
                 'idDirective' => $idDirective,
                 'transoformador' => $transoformador,
-                'transformadores' => $transformadores,
+                'data' => $tablero,
+
             ]
         );
     }
@@ -110,13 +111,17 @@ class ChargeDerivateController extends Controller
      */
     public function show(string $id)
     {
-        // $charge = ChargeDerivate::findOrFail($id);
         $charge = ChargeDerivate::with('electricCharge')
-                    ->where('electric_charge_id', $id)
-                    ->get();
+            ->where('electric_charge_id', $id)
+            ->get();
 
-        $tableres = ElectricCharge::find($id);
+        $tableres = ElectricCharge::with('chargeDerivates')->find($id);
+        $totalTablersDistro = $tableres->chargeDerivates->count();
+
+        session()->put('totalTablersDistro', $totalTablersDistro);
         session()->put('tablero', $tableres);
+        session()->put('idDirective', $id);
+
 
         $tablero = session()->get('tablero');
         $room = session('room');
@@ -125,6 +130,8 @@ class ChargeDerivateController extends Controller
         $totalKw = session('totalKw');
         $totalTransformers = session('totalTransformers');
         $totalTablersDistro = session()->get('totalTablersDistro', 0);
+        // dd($totalTablersDistro);
+
 
 
         return Inertia::render(
