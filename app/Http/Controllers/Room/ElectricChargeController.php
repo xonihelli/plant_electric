@@ -77,9 +77,8 @@ class ElectricChargeController extends Controller
     public function edit(string $id)
     {
         $charge = ElectricCharge::with('chargeDerivates')->find($id);
-        session()->put('tablero', $charge);
-
         $totalTablersDistro = $charge->chargeDerivates->count();
+        session()->put('tablero', $charge);
         session()->put('totalTablersDistro', $totalTablersDistro);
 
         $rooms = Room::all();
@@ -148,6 +147,7 @@ class ElectricChargeController extends Controller
     public function destroy(string $id)
     {
         $charge = ElectricCharge::with('chargeDerivates')->find($id);
+        $idRoom = session('idRoom');
 
         if (!$charge) {
             // Si el transformador no se encuentra, redirige con un mensaje de error.
@@ -162,7 +162,7 @@ class ElectricChargeController extends Controller
         // Si no hay tableros asociados, proceder a eliminar el transformador.
         $charge->delete();
 
-        return redirect()->route('room.index')->with('success', 'Transformador eliminado exitosamente.');
+        return redirect()->route('room.show', ['room' => $idRoom])->with('success', 'Transformador eliminado exitosamente.');
     }
 
 }
