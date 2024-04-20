@@ -11,31 +11,34 @@ use Inertia\Inertia;
 class ChargeSubDerivateController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $chargeSubDerivates = ChargeSubDerivate::with('chargeDerivate')->get();
-
-        return Inertia::render(
-            'Charges/ChargeSubDerivate/Index',
-            [
-                'data' => $chargeSubDerivates,
-            ]
-        );
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
         $chargeDerivates = ChargeDerivate::all();
 
+        $room = session()->get('room');
+        $idDirective = session()->get('idDirective');
+        $totalA = session()->get('totalA');
+        $totalKw = session()->get('totalKw');
+        $totalTransformers = session()->get('totalTransformers');
+        $tablero = session()->get('tablero');
+        $totalTablersDistro = session()->get('totalTablersDistro', 0);
+        $idRoom = session('idRoom');
+
+
         return Inertia::render(
             'Charges/ChargeSubDerivate/Create',
             [
                 'chargeDerivates' => $chargeDerivates,
+                'room' => $room,
+                'idRoom' => $idRoom,
+                'idDirective' => $idDirective,
+                'totalA' => $totalA,
+                'totalKw' => $totalKw,
+                'totalTransformers' => $totalTransformers,
+                'totalTablersDistro' => $totalTablersDistro,
+                'data' => $tablero,
             ]
         );
     }
@@ -55,8 +58,6 @@ class ChargeSubDerivateController extends Controller
                 'model' => 'required|string|max:255',
                 'capacity' => 'required|numeric',
                 'location' => 'required|string|max:255',
-                'lightning_discharge' => 'required|numeric',
-                'surge' => 'required|numeric',
             ],
             [
                 'charge_derivate_id.required' => 'El campo charge_derivate_id es obligatorio',
@@ -75,10 +76,6 @@ class ChargeSubDerivateController extends Controller
                 'capacity.numeric' => 'El campo capacity debe ser un número',
                 'location.required' => 'El campo location es obligatorio',
                 'location.string' => 'El campo location debe ser una cadena de texto',
-                'lightning_discharge.required' => 'El campo lightning_discharge es obligatorio',
-                'lightning_discharge.numeric' => 'El campo lightning_discharge debe ser un número',
-                'surge.required' => 'El campo surge es obligatorio',
-                'surge.numeric' => 'El campo surge debe ser un número',
             ]
         );
 
@@ -93,7 +90,8 @@ class ChargeSubDerivateController extends Controller
         $charge->location = $request->location;
         $charge->save();
 
-        return redirect()->route('sub-directive.index');
+        return redirect()->route('sub-directive.show', ['sub_directive' => $request->charge_derivate_id]);
+
     }
 
     /**
@@ -101,12 +99,29 @@ class ChargeSubDerivateController extends Controller
      */
     public function show(string $id)
     {
-        $chargeDerivates = ChargeDerivate::all();
+        // $chargeSubDerivates = ChargeDerivate::with(['electricCharge', 'chargeSubDerivate'])
+        //     ->where('id', $id)
+        //     ->get();
+
+        $chargeSubDerivates = ChargeSubDerivate::where('charge_derivate_id', $id)->get();
+
+        $room = session()->get('room');
+        $idDirective = session()->get('idDirective');
+        $totalA = session()->get('totalA');
+        $totalKw = session()->get('totalKw');
+        $totalTransformers = session()->get('totalTransformers');
+        $totalTablersDistro = session()->get('totalTablersDistro', 0);
 
         return Inertia::render(
             'Charges/ChargeSubDerivate/Show',
             [
-                'chargeDerivates' => $chargeDerivates,
+                'data' => $chargeSubDerivates,
+                'room' => $room,
+                'idDirective' => $idDirective,
+                'totalA' => $totalA,
+                'totalKw' => $totalKw,
+                'totalTransformers' => $totalTransformers,
+                'totalTablersDistro' => $totalTablersDistro,
             ]
         );
     }
@@ -119,11 +134,28 @@ class ChargeSubDerivateController extends Controller
         $chargeSubDerivate = ChargeSubDerivate::find($id);
         $chargeDerivates = ChargeDerivate::all();
 
+        $room = session()->get('room');
+        $idDirective = session()->get('idDirective');
+        $totalA = session()->get('totalA');
+        $totalKw = session()->get('totalKw');
+        $totalTransformers = session()->get('totalTransformers');
+        $tablero = session()->get('tablero');
+        $totalTablersDistro = session()->get('totalTablersDistro', 0);
+        $idRoom = session('idRoom');
+
         return Inertia::render(
             'Charges/ChargeSubDerivate/Edit',
             [
                 'data' => $chargeSubDerivate,
                 'chargeDerivates' => $chargeDerivates,
+                'room' => $room,
+                'idRoom' => $idRoom,
+                'idDirective' => $idDirective,
+                'totalA' => $totalA,
+                'totalKw' => $totalKw,
+                'totalTransformers' => $totalTransformers,
+                'totalTablersDistro' => $totalTablersDistro,
+                'tablero' => $tablero,
             ]
         );
     }
@@ -143,8 +175,6 @@ class ChargeSubDerivateController extends Controller
                 'model' => 'required|string|max:255',
                 'capacity' => 'required|numeric',
                 'location' => 'required|string|max:255',
-                'lightning_discharge' => 'required|numeric',
-                'surge' => 'required|numeric',
             ],
             [
                 'charge_derivate_id.required' => 'El campo charge_derivate_id es obligatorio',
@@ -163,10 +193,6 @@ class ChargeSubDerivateController extends Controller
                 'capacity.numeric' => 'El campo capacity debe ser un número',
                 'location.required' => 'El campo location es obligatorio',
                 'location.string' => 'El campo location debe ser una cadena de texto',
-                'lightning_discharge.required' => 'El campo lightning_discharge es obligatorio',
-                'lightning_discharge.numeric' => 'El campo lightning_discharge debe ser un número',
-                'surge.required' => 'El campo surge es obligatorio',
-                'surge.numeric' => 'El campo surge debe ser un número',
             ]
         );
 
@@ -181,7 +207,8 @@ class ChargeSubDerivateController extends Controller
         $charge->location = $request->location;
         $charge->save();
 
-        return redirect()->route('sub-directive.index');
+        return redirect()->route('sub-directive.show', ['sub_directive' => $request->charge_derivate_id]);
+
     }
 
     /**
@@ -192,6 +219,6 @@ class ChargeSubDerivateController extends Controller
         $charge = ChargeSubDerivate::find($id);
         $charge->delete();
 
-        return redirect()->route('sub-directive.index');
+        return redirect()->route('sub-directive.show', ['sub_directive' => $charge->charge_derivate_id]);
     }
 }
