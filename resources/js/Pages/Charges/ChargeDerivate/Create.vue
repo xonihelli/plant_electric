@@ -147,7 +147,7 @@ const sendForm = () => {
         <h4 class="card-title capitalize">Agregar Tablero de distribuición</h4>
 
         <Link
-          :href="route('directive.index')"
+          :href="route('directive.show', { directive: idDirective })"
           class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
         >
           <i class="fa-solid fa-arrow-left"></i>
@@ -213,7 +213,7 @@ const sendForm = () => {
                 <TextInput
                   id="surge"
                   v-model="form.surge"
-                  type="number"
+                  type="text"
                   autocomplete="off"
                   placeholder="Ejemplo: 1.2"
                 />
@@ -224,7 +224,7 @@ const sendForm = () => {
                 <TextInput
                   id="voltage"
                   v-model="form.voltage"
-                  type="number"
+                  type="text"
                   autocomplete="off"
                   placeholder="Ejemplo: 1232"
                 />
@@ -246,11 +246,12 @@ const sendForm = () => {
               </div>
             </div>
             <div class="flex justify-around">
-                <a
-
-                >
+              <Link
+                :href="route('directive.show', { directive: idDirective })"
+                class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-secondary text-white bg-secondary hover:bg-hover-secondary hover:border-hover-success duration-300 btn-xxs shadow"
+              >
                 Cancelar
-              </a>
+              </Link>
               <button
                 class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-success text-white bg-success hover:bg-hover-success hover:border-hover-success duration-300 btn-xxs shadow"
               >
