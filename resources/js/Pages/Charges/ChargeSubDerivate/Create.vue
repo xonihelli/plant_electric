@@ -1,6 +1,8 @@
 
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import CardRoom from "@/Components/Custom/CardRoom.vue";
+import CardElectronic from "@/Components/Custom/CardElectronic.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
@@ -91,48 +93,9 @@ let charges = {
 
 <template>
   <AuthenticatedLayout>
+    <!-- <CardRoom/>
+    <CardElectronic/> -->
 
-    <div class="page-titles dark:bg-[#242424] flex items-center justify-between relative border-b border-[#E6E6E6] dark:border-[#444444] flex-wrap z-[1] py-[0.6rem] sm:px-[1.95rem] px-[1.55rem] bg-white shadow mb-5">
-        <ol class="text-[13px] flex items-center flex-wrap bg-transparent">
-            <li>
-                <Link
-                    :href="route('room.index')"
-                    class="text-[#828690] dark:text-white text-[13px]
-                ">
-                    Cuartos
-                </Link>
-            </li>
-            <li
-                class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left "
-            >
-                <Link
-                    :href="route('room.show', 1)"
-                    class="text-[#828690] dark:text-white text-[13px]"
-                >
-                    Nombre del cuarto
-                </Link>
-            </li>
-            <li
-                class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left before:text-primary text-primary font-medium"
-            >
-                tablero
-            </li>
-            <li
-                class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left before:text-primary text-primary font-medium"
-            >
-                Agregar carga
-            </li>
-        </ol>
-
-
-        <Link
-            class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
-            :href="route('room.show', 1)"
-        >
-        <i class="fa-solid fa-arrow-left"></i>
-        Regresar
-      </Link>
-    </div>
     <CardRoom :room="room" :edit="false" />
     <CardElectronic :data="charges" :edit="false" />
 
@@ -246,29 +209,6 @@ let charges = {
                   autocomplete="off"
                 />
                 <InputError :message="form.errors.location" />
-              </div>
-              <div class="w-full md:w-1/2">
-                <InputLabel
-                  for="lightning_discharge"
-                  value="Descarga atmosférica"
-                />
-                <TextInput
-                  id="lightning_discharge"
-                  v-model="form.lightning_discharge"
-                  type="text"
-                  autocomplete="off"
-                />
-                <InputError :message="form.errors.lightning_discharge" />
-              </div>
-              <div class="w-full md:w-1/2">
-                <InputLabel for="surge" value="Sobretensión" />
-                <TextInput
-                  id="surge"
-                  v-model="form.surge"
-                  type="text"
-                  autocomplete="off"
-                />
-                <InputError :message="form.errors.surge" />
               </div>
             </div>
             <div class="flex justify-around">

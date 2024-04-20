@@ -1,6 +1,8 @@
 
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import CardRoom from "@/Components/Custom/CardRoom.vue";
+import CardElectronic from "@/Components/Custom/CardElectronic.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
@@ -86,73 +88,8 @@ let room = {
 
 <template>
   <AuthenticatedLayout>
-    <div class="card">
-      <div
-        class="card-header flex justify-between px-5 pt-6 relative z-[2] pb-0"
-      >
-        <h2 class="card-title text-base">
-          Detalles del tablero de distribución
-        </h2>
-      </div>
-      <div class="card-body sm:p-5 p-4 sm:pb-0 pb-0">
-        <div class="flex flex-wrap w-full">
-          <div class="w-full md:w-1/2">
-            <h1 class="mb-4 text-md font-semibold">
-              <i class="fa-solid fa-house mr-2"></i>
-              {{ room.name }}
-            </h1>
-            <p class="mb-4">
-              Descripción: <br />
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
-            </p>
-          </div>
-          <div class="w-full md:w-1/2">
-            <ul class="list-group flex flex-col list-group-flush">
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Cargas </strong>
-                <span class="mb-0">
-                  {{ room.charge }}
-                </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Uso </strong>
-                <span class="mb-0"> {{ room.porcent }} % </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Kw </strong>
-                <span class="mb-0"> 211.4861 </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> A </strong>
-                <span class="mb-0"> 294.4 </span>
-              </li>
-              <li
-                class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
-              >
-                <strong> Estado </strong>
-                <span class="mb-0">
-                  <span
-                    class="py-[0.1875rem] px-[0.8125rem] text-xs rounded-[1.25rem] text-white leading-[1.5] inline-block border duration-500"
-                    :class="`bg-${room.status.class} border-${room.status.class}`"
-                  >
-                    {{ room.status.name }}
-                  </span>
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- <CardRoom/>
+    <CardElectronic/> -->
 
     <div class="card dz-tab-area">
       <div
@@ -272,29 +209,6 @@ let room = {
                   autocomplete="off"
                 />
                 <InputError :message="form.errors.location" />
-              </div>
-              <div class="w-full md:w-1/2">
-                <InputLabel
-                  for="lightning_discharge"
-                  value="Descarga atmosférica"
-                />
-                <TextInput
-                  id="lightning_discharge"
-                  v-model="form.lightning_discharge"
-                  type="text"
-                  autocomplete="off"
-                />
-                <InputError :message="form.errors.lightning_discharge" />
-              </div>
-              <div class="w-full md:w-1/2">
-                <InputLabel for="surge" value="Sobretensión" />
-                <TextInput
-                  id="surge"
-                  v-model="form.surge"
-                  type="text"
-                  autocomplete="off"
-                />
-                <InputError :message="form.errors.surge" />
               </div>
             </div>
             <div class="flex justify-around">

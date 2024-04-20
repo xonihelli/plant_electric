@@ -1,5 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import CardRoom from "@/Components/Custom/CardRoom.vue";
+import CardElectronic from "@/Components/Custom/CardElectronic.vue";
 import { Link, router } from "@inertiajs/vue3";
 
 const props = defineProps({
@@ -36,6 +38,10 @@ function deleteDerivada(id) {
 </script>
 
 <template>
+  <AuthenticatedLayout>
+    <!-- <CardRoom/>
+    <CardElectronic/> -->
+
     <div class="card dz-tab-area">
       <div
         class="card-header sm:flex justify-between items-center px-5 pt-6 relative z-[2] pb-0 block"
@@ -188,17 +194,6 @@ function deleteDerivada(id) {
                       <i class="fa-solid fa-pen"></i>
                       Editar
                     </Link>
-                    <Link
-                      :href="
-                        route('sub-directive.show', {
-                          sub_directive: sub_directive.id,
-                        })
-                      "
-                      class="btn btn-info inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-info text-white bg-info hover:bg-hover-info hover:border-hover-info duration-300 btn-xxs shadow"
-                    >
-                      <i class="fa-solid fa-eye"></i>
-                      Más información
-                    </Link>
                     <button
                       @click="deleteDerivada(sub_directive.id)"
                       class="btn btn-danger inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-danger text-white bg-danger hover:bg-hover-danger hover:border-hover-danger duration-300 btn-xxs shadow"
@@ -214,6 +209,8 @@ function deleteDerivada(id) {
         </div>
       </div>
     </div>
+  </AuthenticatedLayout>
+
 </template>
 
 
