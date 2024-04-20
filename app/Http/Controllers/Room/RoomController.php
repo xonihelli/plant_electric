@@ -67,7 +67,7 @@ class RoomController extends Controller
         $room->description = $request->description;
         $room->save();
 
-        return redirect()->route('rooms.room.index');
+        return redirect()->route('room.index');
     }
 
     /**
@@ -132,7 +132,7 @@ class RoomController extends Controller
         $room = Room::find($id);
         $room->update($request->all());
 
-        return redirect()->route('rooms.room.index');
+        return redirect()->route('room.index');
     }
 
     /**
@@ -143,6 +143,6 @@ class RoomController extends Controller
         $room = Room::find($id);
         $room->delete();
 
-        return redirect()->route('rooms.room.index');
+        return redirect()->route('room.index');
     }
 }
