@@ -22,7 +22,7 @@ function deleteDerivada(id) {
     if (result.isConfirmed) {
       router.delete(
         route(
-          "charge.sub-directive.destroy",
+          "sub-directive.destroy",
           { sub_directive: id },
           { preserveScroll: true }
         )
@@ -43,7 +43,7 @@ function deleteDerivada(id) {
         <h4 class="card-title capitalize">Cargas eléctricas</h4>
 
         <Link
-          :href="route('charge.sub-directive.create')"
+          :href="route('sub-directive.create')"
           class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-success text-white bg-success hover:bg-hover-success hover:border-hover-success duration-300 btn-xxs shadow"
         >
           <i class="fa-solid fa-plus"></i>
@@ -179,7 +179,7 @@ function deleteDerivada(id) {
                   <div class="flex space-x-2">
                     <Link
                       :href="
-                        route('charge.sub-directive.edit', {
+                        route('sub-directive.edit', {
                           sub_directive: sub_directive.id,
                         })
                       "
@@ -190,7 +190,7 @@ function deleteDerivada(id) {
                     </Link>
                     <Link
                       :href="
-                        route('charge.sub-directive.show', {
+                        route('sub-directive.show', {
                           sub_directive: sub_directive.id,
                         })
                       "

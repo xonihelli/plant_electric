@@ -65,7 +65,7 @@ const form = useForm({
 const sendForm = () => {
   form.submit(
     "put",
-    route("charge.directive.update", {
+    route("directive.update", {
       directive: props.data.id,
     }),
     {
@@ -80,7 +80,7 @@ const sendForm = () => {
             icon: "success",
             title: "La información del tablero de distribuición ha sido creada",
           }).then(() => {
-            location.href("charge.directive.show", { directive: idDirective });
+            location.href("directive.show", { directive: idDirective });
           });
         }
       },
@@ -97,7 +97,7 @@ const sendForm = () => {
       <ol class="text-[13px] flex items-center flex-wrap bg-transparent">
         <li>
           <Link
-            :href="route('rooms.room.index')"
+            :href="route('room.index')"
             class="text-[#828690] dark:text-white text-[13px]"
           >
             Cuartos
@@ -107,7 +107,7 @@ const sendForm = () => {
           class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left"
         >
           <Link
-            :href="route('rooms.room.show', { room: idRoom })"
+            :href="route('room.show', { room: idRoom })"
             class="text-[#828690] dark:text-white text-[13px]"
           >
             {{ room.name }}
@@ -127,7 +127,7 @@ const sendForm = () => {
 
       <Link
         class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
-        :href="route('charge.directive.show', { directive: idDirective })"
+        :href="route('directive.show', { directive: idDirective })"
       >
         <i class="fa-solid fa-arrow-left"></i>
         Regresar
@@ -155,7 +155,7 @@ const sendForm = () => {
         <h4 class="card-title capitalize">Agregar Tablero de distribuición</h4>
 
         <Link
-          :href="route('charge.directive.index')"
+          :href="route('directive.index')"
           class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
         >
           <i class="fa-solid fa-arrow-left"></i>
@@ -218,7 +218,7 @@ const sendForm = () => {
                 <TextInput
                   id="surge"
                   v-model="form.surge"
-                  type="text"
+                  type="number"
                   autocomplete="off"
                   placeholder="Ejemplo: 1.2"
                 />
@@ -229,7 +229,7 @@ const sendForm = () => {
                 <TextInput
                   id="voltage"
                   v-model="form.voltage"
-                  type="text"
+                  type="number"
                   autocomplete="off"
                   placeholder="Ejemplo: 1232"
                 />
@@ -243,7 +243,7 @@ const sendForm = () => {
                 <TextInput
                   id="lightning_discharge"
                   v-model="form.lightning_discharge"
-                  type="text"
+                  type="number"
                   autocomplete="off"
                   placeholder="Ejemplo: 1"
                 />
@@ -253,7 +253,7 @@ const sendForm = () => {
             <div class="flex justify-around">
               <Link
                 :href="
-                  route('charge.directive.show', { directive: idDirective })
+                  route('directive.show', { directive: idDirective })
                 "
                 class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-secondary text-white bg-secondary hover:bg-hover-secondary hover:border-hover-success duration-300 btn-xxs shadow"
               >

@@ -33,7 +33,7 @@ const form = useForm({
 });
 
 const sendForm = () => {
-  form.submit("post", route("charge.sub-directive.store"), {
+  form.submit("post", route("sub-directive.store"), {
     onFinish: () => {
       if (Object.keys(form.errors).length) {
         Swal.fire({
@@ -45,7 +45,7 @@ const sendForm = () => {
           icon: "success",
           title: "La información de la carga subderivada ha sido guardada",
         }).then(() => {
-          location.href("charge.sub-directive.index");
+          location.href("sub-directive.index");
         });
       }
     },
@@ -161,7 +161,7 @@ let room = {
         <h4 class="card-title capitalize">Editar Carga derivada</h4>
 
         <Link
-          :href="route('charge.sub-directive.index')"
+          :href="route('sub-directive.index')"
           class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
         >
           <i class="fa-solid fa-arrow-left"></i>
@@ -299,7 +299,7 @@ let room = {
             </div>
             <div class="flex justify-around">
               <Link
-                :href="route('charge.sub-directive.index')"
+                :href="route('sub-directive.index')"
                 class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-secondary text-white bg-secondary hover:bg-hover-secondary hover:border-hover-success duration-300 btn-xxs shadow"
               >
                 Cancelar

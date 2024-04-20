@@ -27,7 +27,7 @@ const form = useForm({
 });
 
 const sendForm = () => {
-  form.submit("post", route("charge.sub-directive.store"), {
+  form.submit("post", route("sub-directive.store"), {
     onFinish: () => {
       if (Object.keys(form.errors).length) {
         Swal.fire({
@@ -39,7 +39,7 @@ const sendForm = () => {
           icon: "success",
           title: "La información de la carga subderivada ha sido guardada",
         }).then(() => {
-          location.href("charge.sub-directive.index");
+          location.href("sub-directive.index");
         });
       }
     },
@@ -96,7 +96,7 @@ let charges = {
         <ol class="text-[13px] flex items-center flex-wrap bg-transparent">
             <li>
                 <Link
-                    :href="route('rooms.room.index')"
+                    :href="route('room.index')"
                     class="text-[#828690] dark:text-white text-[13px]
                 ">
                     Cuartos
@@ -106,7 +106,7 @@ let charges = {
                 class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left "
             >
                 <Link
-                    :href="route('rooms.room.show', 1)"
+                    :href="route('room.show', 1)"
                     class="text-[#828690] dark:text-white text-[13px]"
                 >
                     Nombre del cuarto
@@ -127,7 +127,7 @@ let charges = {
 
         <Link
             class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
-            :href="route('rooms.room.show', 1)"
+            :href="route('room.show', 1)"
         >
         <i class="fa-solid fa-arrow-left"></i>
         Regresar
@@ -273,7 +273,7 @@ let charges = {
             </div>
             <div class="flex justify-around">
               <Link
-                :href="route('charge.sub-directive.index')"
+                :href="route('sub-directive.index')"
                 class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-secondary text-white bg-secondary hover:bg-hover-secondary hover:border-hover-success duration-300 btn-xxs shadow"
               >
                 Cancelar
