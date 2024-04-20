@@ -82,24 +82,15 @@ function deleteDerivada(id) {
         <li
           class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left before:text-primary text-primary font-medium"
         >
-          Detalles del transformador eléctrico: {{ data.name }}
+          Detalles del tablero de distribución : {{ data.name }}
         </li>
         <li
           class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left before:text-primary text-primary font-medium"
         >
-          Detalles de carga: {{ data.name }}
+          Detalles de cargas electricas
         </li>
       </ol>
 
-      <Link
-        class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
-        :href="route('room.show', { room: idRoom })"
-      >
-        <i class="fa-solid fa-arrow-left"></i>
-        Regresar
-      </Link>
-    </div>
-    <div class="flex justify-end mb-4">
       <Link
         class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
         :href="route('directive.show', { directive: idDirective })"
@@ -108,6 +99,7 @@ function deleteDerivada(id) {
         Regresar
       </Link>
     </div>
+
     <CardRoom
       :room="room"
       :totalTransformers="totalTransformers"
