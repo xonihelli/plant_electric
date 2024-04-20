@@ -166,7 +166,7 @@ const sendForm = () => {
                 <TextInput
                   id="kw"
                   v-model="form.kw"
-                  type="number"
+                  type="text"
                   class="input-default"
                   placeholder="Ejemplo: 100"
                 />
@@ -180,7 +180,7 @@ const sendForm = () => {
                 <TextInput
                   id="a"
                   v-model="form.a"
-                  type="number"
+                  type="text"
                   class="input-default"
                   placeholder="Ejemplo: 92.1"
                 />
