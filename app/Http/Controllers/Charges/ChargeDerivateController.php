@@ -37,7 +37,6 @@ class ChargeDerivateController extends Controller
     public function create()
     {
         $electricCharges = ElectricCharge::all();
-
         $room = session('room');
         $idRoom = session('idRoom');
         $transformadores = session('transformadores');
@@ -103,7 +102,7 @@ class ChargeDerivateController extends Controller
         $charge->lightning_discharge = $request->lightning_discharge;
         $charge->save();
 
-        return redirect()->route('charge.directive.show', ['directive' => $request->electric_charge_id]);
+        return redirect()->route('directive.show', ['directive' => $request->electric_charge_id]);
     }
 
     /**
@@ -112,7 +111,12 @@ class ChargeDerivateController extends Controller
     public function show(string $id)
     {
         // $charge = ChargeDerivate::findOrFail($id);
-        $charge = ChargeDerivate::where('electric_charge_id', $id)->get();
+        $charge = ChargeDerivate::with('electricCharge')
+                    ->where('electric_charge_id', $id)
+                    ->get();
+
+        $tableres = ElectricCharge::find($id);
+        session()->put('tablero', $tableres);
 
         $tablero = session()->get('tablero');
         $room = session('room');
@@ -211,7 +215,7 @@ class ChargeDerivateController extends Controller
         $charge->lightning_discharge = $request->lightning_discharge;
         $charge->save();
 
-        return redirect()->route('charge.directive.show', ['directive' => $request->electric_charge_id]);
+        return redirect()->route('directive.show', ['directive' => $request->electric_charge_id]);
 
     }
 
@@ -223,6 +227,6 @@ class ChargeDerivateController extends Controller
         $charge = ChargeDerivate::find($id);
         $charge->delete();
 
-        return redirect()->route('charge.directive.show', ['directive' => $charge->electric_charge_id]);
+        return redirect()->route('directive.show', ['directive' => $charge->electric_charge_id]);
     }
 }
