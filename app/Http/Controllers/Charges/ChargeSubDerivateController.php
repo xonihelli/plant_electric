@@ -95,7 +95,7 @@ class ChargeSubDerivateController extends Controller
         $charge->surge = $request->surge;
         $charge->save();
 
-        return redirect()->route('charge.sub-directive.index');
+        return redirect()->route('sub-directive.index');
     }
 
     /**
@@ -103,7 +103,14 @@ class ChargeSubDerivateController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $chargeDerivates = ChargeDerivate::all();
+
+        return Inertia::render(
+            'Charges/ChargeSubDerivate/Show',
+            [
+                'chargeDerivates' => $chargeDerivates,
+            ]
+        );
     }
 
     /**
@@ -178,7 +185,7 @@ class ChargeSubDerivateController extends Controller
         $charge->surge = $request->surge;
         $charge->save();
 
-        return redirect()->route('charge.sub-directive.index');
+        return redirect()->route('sub-directive.index');
     }
 
     /**
@@ -189,6 +196,6 @@ class ChargeSubDerivateController extends Controller
         $charge = ChargeSubDerivate::find($id);
         $charge->delete();
 
-        return redirect()->route('charge.sub-directive.index');
+        return redirect()->route('sub-directive.index');
     }
 }
