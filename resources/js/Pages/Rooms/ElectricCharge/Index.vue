@@ -15,21 +15,35 @@ const props = defineProps({
 function deleteDerivada(id) {
   Swal.fire({
     title: "¿Estas seguro de eliminar este Transformador eléctrico?",
-    text: "¡No podras revertir esto!",
+    text: "¡No podrás revertir esto!",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
-    confirmButtonText: "Si, Eliminar!",
+    confirmButtonText: "Sí, Eliminar!",
   }).then((result) => {
     if (result.isConfirmed) {
-      router.delete(
-        route(
-          "electric-charge.destroy",
-          { electric_charge: id },
-          { preserveScroll: true }
+      router
+        .delete(
+          route(
+            "electric-charge.destroy",
+            { electric_charge: id },
+            { preserveScroll: true }
+          )
         )
-      );
+        .then(() => {
+          // Recarga la página después de eliminar
+          location.reload();
+        })
+        .catch((error) => {
+          // Manejo del error, por si acaso la solicitud falla
+          console.error("Error al eliminar:", error);
+          Swal.fire(
+            "Error",
+            "No se pudo eliminar el transformador eléctrico.",
+            "error"
+          );
+        });
     }
   });
 }
