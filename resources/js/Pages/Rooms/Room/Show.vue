@@ -33,7 +33,7 @@ const props = defineProps({
       <ol class="text-[13px] flex items-center flex-wrap bg-transparent">
         <li>
           <Link
-            :href="route('rooms.room.index')"
+            :href="route('room.index')"
             class="text-[#828690] dark:text-white text-[13px]"
           >
             Cuartos
@@ -48,7 +48,7 @@ const props = defineProps({
 
       <Link
         class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
-        :href="route('rooms.room.index')"
+        :href="route('room.index')"
       >
         <i class="fa-solid fa-arrow-left"></i>
         Regresar
@@ -72,7 +72,7 @@ const props = defineProps({
         </h4>
 
         <Link
-          :href="route('rooms.electric-charge.create')"
+          :href="route('electric-charge.create')"
           class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-success text-white bg-success hover:bg-hover-success hover:border-hover-success duration-300 btn-xxs shadow"
         >
           <i class="fa-solid fa-plus"></i>

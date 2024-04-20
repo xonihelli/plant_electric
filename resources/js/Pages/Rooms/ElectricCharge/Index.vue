@@ -25,7 +25,7 @@ function deleteDerivada(id) {
     if (result.isConfirmed) {
       router.delete(
         route(
-          "rooms.electric-charge.destroy",
+          "electric-charge.destroy",
           { electric_charge: id },
           { preserveScroll: true }
         )
@@ -178,7 +178,7 @@ function deleteDerivada(id) {
             <div class="flex space-x-2">
               <Link
                 :href="
-                  route('rooms.electric-charge.edit', {
+                  route('electric-charge.edit', {
                     electric_charge: charge.id,
                   })
                 "
@@ -188,7 +188,7 @@ function deleteDerivada(id) {
               </Link>
 
               <Link
-                :href="route('charge.directive.show', { directive: charge.id })"
+                :href="route('directive.show', { directive: charge.id })"
                 class="btn btn-info inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-info text-white bg-info hover:bg-hover-info hover:border-hover-info duration-300 btn-xxs shadow"
               >
                 <i class="fa-solid fa-eye"></i>

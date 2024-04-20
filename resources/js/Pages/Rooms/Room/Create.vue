@@ -10,7 +10,7 @@ const form = useForm({
   description: "",
 });
 const sendForm = () => {
-  form.submit("post", route("rooms.room.store"), {
+  form.submit("post", route("room.store"), {
     onFinish: () => {
       if (Object.keys(form.errors).length) {
         Swal.fire({
@@ -22,7 +22,7 @@ const sendForm = () => {
           icon: "success",
           title: "La información del cuarto eléctrico ha sido guardada",
         }).then(() => {
-          location.href = route("rooms.room.index");
+          location.href = route("room.index");
         });
       }
     },
@@ -63,7 +63,7 @@ const sendForm = () => {
 
           <div class="flex justify-around">
             <Link
-              :href="route('rooms.room.index')"
+              :href="route('room.index')"
               class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-secondary text-white bg-secondary hover:bg-hover-secondary hover:border-hover-success duration-300 btn-xxs shadow"
             >
               Cancelar

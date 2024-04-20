@@ -13,7 +13,7 @@ const props = defineProps({
   <AuthenticatedLayout>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
       <div>
-        <Link :href="route('rooms.room.create')">
+        <Link :href="route('room.create')">
           <div class="card shadow-lg hover:shadow ease-in duration-200">
             <div
               class="card-body depostit-card p-5 flex flex-wrap justify-center items-center h-full w-full"
@@ -31,7 +31,7 @@ const props = defineProps({
         </Link>
       </div>
       <div v-for="room in data" :key="room.id">
-        <Link :href="route('rooms.room.show', room.id)">
+        <Link :href="route('room.show', room.id)">
           <div class="card shadow-lg hover:shadow ease-in duration-200">
             <div class="card-body depostit-card p-5">
               <div
