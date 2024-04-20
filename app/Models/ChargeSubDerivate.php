@@ -30,7 +30,8 @@ class ChargeSubDerivate extends Model
         'brand',
         'model',
         'capacity',
-        'surge'
+        'surge',
+        'location',
     ];
 
     /*-------------------------------- RELACIONES ------------------------------*/
