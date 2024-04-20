@@ -13,7 +13,39 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  room: {
+    type: Object,
+    default: () => ({}),
+  },
+  idRoom: {
+    type: String,
+    required: true,
+  },
+  idDirective: {
+    type: String,
+    required: true,
+  },
+  totalTransformers: {
+    type: Number,
+    required: true,
+  },
+  totalKw: {
+    type: Number,
+    required: true,
+  },
+  totalA: {
+    type: Number,
+    required: true,
+  },
+  totalTablersDistro: {
+    type: Number,
+    required: true,
+  },
   data: {
+    type: Object,
+    default: () => ({}),
+  },
+  tablero: {
     type: Object,
     default: () => ({}),
   },
@@ -28,10 +60,6 @@ const form = useForm({
   model: props.data.model ?? "",
   capacity: props.data.capacity ?? "",
   location: props.data.location ?? "",
-  lightning_discharge: props.data.lightning_discharge
-    ? props.data.lightning_discharge.toString()
-    : "",
-  surge: props.data.surge ? props.data.surge.toString() : "",
 });
 
 const sendForm = () => {
@@ -45,51 +73,30 @@ const sendForm = () => {
       } else {
         Swal.fire({
           icon: "success",
-          title: "La información de la carga subderivada ha sido guardada",
+          title: "La información de la carga subderivada ha sido Actualizada",
         }).then(() => {
-          location.href("sub-directive.index");
+          location.href("sub-directive.show", { sub_directive: idDirective });
         });
       }
     },
   });
 };
-
-let status = [
-  {
-    id: 1,
-    name: "bueno",
-    class: "success",
-    icon: "fa-solid fa-check",
-  },
-  {
-    id: 1,
-    name: "peligroso",
-    class: "warning",
-    icon: "fa-solid fa-triangle-exclamation",
-  },
-  {
-    id: 1,
-    name: "malo",
-    class: "success",
-    icon: "fa-solid fa-xmark",
-  },
-];
-
-let room = {
-  id: 1,
-  name: "cuarto #" + Math.floor(Math.random() * 1000),
-  description:
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-  charge: Math.floor(Math.random() * 1000),
-  porcent: Math.floor(Math.random() * 100),
-  status: status[Math.floor(Math.random() * status.length)],
-};
 </script>
 
 <template>
   <AuthenticatedLayout>
-    <!-- <CardRoom/>
-    <CardElectronic/> -->
+    <CardRoom
+      :room="room"
+      :totalTransformers="totalTransformers"
+      :totalKw="totalKw"
+      :totalA="totalA"
+      :edit="false"
+    />
+    <CardElectronic
+      :data="tablero"
+      :totalTablersDistro="totalTablersDistro"
+      :edit="false"
+    />
 
     <div class="card dz-tab-area">
       <div
@@ -98,7 +105,7 @@ let room = {
         <h4 class="card-title capitalize">Editar Carga derivada</h4>
 
         <Link
-          :href="route('sub-directive.index')"
+          :href="route('sub-directive.show', { sub_directive: idDirective })"
           class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
         >
           <i class="fa-solid fa-arrow-left"></i>
@@ -186,7 +193,9 @@ let room = {
                 />
                 <InputError :message="form.errors.model" />
               </div>
+            </div>
 
+            <div class="flex sm:flex-wrap md:flex-nowrap space-x-2">
               <div class="w-full md:w-1/2">
                 <InputLabel for="capacity" value="Capacidad" />
                 <TextInput
@@ -197,9 +206,6 @@ let room = {
                 />
                 <InputError :message="form.errors.capacity" />
               </div>
-            </div>
-
-            <div class="flex sm:flex-wrap md:flex-nowrap space-x-2">
               <div class="w-full md:w-1/2">
                 <InputLabel for="location" value="Ubicación" />
                 <TextInput
@@ -213,7 +219,9 @@ let room = {
             </div>
             <div class="flex justify-around">
               <Link
-                :href="route('sub-directive.index')"
+                :href="
+                  route('sub-directive.show', { sub_directive: idDirective })
+                "
                 class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-secondary text-white bg-secondary hover:bg-hover-secondary hover:border-hover-success duration-300 btn-xxs shadow"
               >
                 Cancelar
