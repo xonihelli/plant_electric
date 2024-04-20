@@ -91,8 +91,6 @@ class ChargeSubDerivateController extends Controller
         $charge->model = $request->model;
         $charge->capacity = $request->capacity;
         $charge->location = $request->location;
-        $charge->lightning_discharge = $request->lightning_discharge;
-        $charge->surge = $request->surge;
         $charge->save();
 
         return redirect()->route('sub-directive.index');
@@ -181,8 +179,6 @@ class ChargeSubDerivateController extends Controller
         $charge->model = $request->model;
         $charge->capacity = $request->capacity;
         $charge->location = $request->location;
-        $charge->lightning_discharge = $request->lightning_discharge;
-        $charge->surge = $request->surge;
         $charge->save();
 
         return redirect()->route('sub-directive.index');
