@@ -27,6 +27,7 @@ class ChargeSubDerivateController extends Controller
         $idRoom = session('idRoom');
 
 
+
         return Inertia::render(
             'Charges/ChargeSubDerivate/Create',
             [
