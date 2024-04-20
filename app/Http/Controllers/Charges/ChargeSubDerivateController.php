@@ -111,6 +111,8 @@ class ChargeSubDerivateController extends Controller
         $totalKw = session()->get('totalKw');
         $totalTransformers = session()->get('totalTransformers');
         $totalTablersDistro = session()->get('totalTablersDistro', 0);
+        $tablero = session()->get('tablero');
+
 
         return Inertia::render(
             'Charges/ChargeSubDerivate/Show',
@@ -122,6 +124,7 @@ class ChargeSubDerivateController extends Controller
                 'totalKw' => $totalKw,
                 'totalTransformers' => $totalTransformers,
                 'totalTablersDistro' => $totalTablersDistro,
+                'tablero' => $tablero,
             ]
         );
     }

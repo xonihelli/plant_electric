@@ -28,6 +28,10 @@ const props = defineProps({
   totalTablersDistro: {
     type: Number,
   },
+  tablero: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 
 function deleteDerivada(id) {
@@ -74,7 +78,7 @@ function deleteDerivada(id) {
       :totalA="totalA"
       :edit="false"
     />
-    <CardElectronic :data="data" :totalTablersDistro="totalTablersDistro" />
+    <CardElectronic :data="tablero" :totalTablersDistro="totalTablersDistro" />
     <div class="card dz-tab-area">
       <div
         class="card-header sm:flex justify-between items-center px-5 pt-6 relative z-[2] pb-0 block"
