@@ -78,7 +78,8 @@ const sendForm = () => {
         } else {
           Swal.fire({
             icon: "success",
-            title: "La información del tablero de distribuición ha sido creada",
+            title:
+              "La información del tablero de distribuición ha sido actualizada",
           }).then(() => {
             location.href("directive.show", { directive: idDirective });
           });
@@ -121,7 +122,7 @@ const sendForm = () => {
         <li
           class="pl-2 before:content-['/'] before:font-[simple-line-icons] before:font-black before:text-xl before:leading-4 before:pr-2 before:float-left before:text-primary text-primary font-medium"
         >
-          Agregar tablero de distribuición
+          Editar tablero de distribuición
         </li>
       </ol>
 
@@ -152,10 +153,10 @@ const sendForm = () => {
       <div
         class="card-header sm:flex justify-between items-center px-5 pt-6 relative z-[2] pb-0 block"
       >
-        <h4 class="card-title capitalize">Agregar Tablero de distribuición</h4>
+        <h4 class="card-title capitalize">Editar Tablero de distribuición</h4>
 
         <Link
-          :href="route('directive.index')"
+          :href="route('directive.show', { directive: idDirective })"
           class="btn btn-primary inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-primary text-white bg-primary hover:bg-hover-primary hover:border-hover-primary duration-300 btn-xxs shadow"
         >
           <i class="fa-solid fa-arrow-left"></i>
@@ -218,7 +219,7 @@ const sendForm = () => {
                 <TextInput
                   id="surge"
                   v-model="form.surge"
-                  type="number"
+                  type="text"
                   autocomplete="off"
                   placeholder="Ejemplo: 1.2"
                 />
@@ -229,7 +230,7 @@ const sendForm = () => {
                 <TextInput
                   id="voltage"
                   v-model="form.voltage"
-                  type="number"
+                  type="text"
                   autocomplete="off"
                   placeholder="Ejemplo: 1232"
                 />
@@ -243,7 +244,7 @@ const sendForm = () => {
                 <TextInput
                   id="lightning_discharge"
                   v-model="form.lightning_discharge"
-                  type="number"
+                  type="text"
                   autocomplete="off"
                   placeholder="Ejemplo: 1"
                 />
@@ -252,9 +253,7 @@ const sendForm = () => {
             </div>
             <div class="flex justify-around">
               <Link
-                :href="
-                  route('directive.show', { directive: idDirective })
-                "
+                :href="route('directive.show', { directive: idDirective })"
                 class="btn btn-success inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-secondary text-white bg-secondary hover:bg-hover-secondary hover:border-hover-success duration-300 btn-xxs shadow"
               >
                 Cancelar
