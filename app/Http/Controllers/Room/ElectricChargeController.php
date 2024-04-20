@@ -68,7 +68,7 @@ class ElectricChargeController extends Controller
         $charge->measurement_date = $request->measurement_date;
         $charge->save();
 
-        return redirect()->route('rooms.room.show', ['room' => $request->room_id]);
+        return redirect()->route('room.show', ['room' => $request->room_id]);
     }
 
     /**
@@ -138,7 +138,7 @@ class ElectricChargeController extends Controller
         $charge->measurement_date = $request->measurement_date;
         $charge->save();
 
-        return redirect()->route('rooms.room.show', ['room' => $request->room_id]);
+        return redirect()->route('room.show', ['room' => $request->room_id]);
 
     }
 
@@ -151,18 +151,18 @@ class ElectricChargeController extends Controller
 
         if (!$charge) {
             // Si el transformador no se encuentra, redirige con un mensaje de error.
-            return redirect()->route('rooms.room.index')->with('error', 'El transformador no fue encontrado.');
+            return redirect()->route('room.index')->with('error', 'El transformador no fue encontrado.');
         }
 
         if ($charge->chargeDerivates->isNotEmpty()) {
             // Si el transformador tiene tableros de distribución asociados, no permitir eliminarlo.
-            return redirect()->route('rooms.room.index')->with('error', 'No se puede eliminar el transformador porque tiene tableros de distribución asociados.');
+            return redirect()->route('room.index')->with('error', 'No se puede eliminar el transformador porque tiene tableros de distribución asociados.');
         }
 
         // Si no hay tableros asociados, proceder a eliminar el transformador.
         $charge->delete();
 
-        return redirect()->route('rooms.room.index')->with('success', 'Transformador eliminado exitosamente.');
+        return redirect()->route('room.index')->with('success', 'Transformador eliminado exitosamente.');
     }
 
 }
