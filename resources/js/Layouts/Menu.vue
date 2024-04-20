@@ -33,7 +33,7 @@
 
     <li class="menu-title">Administra tus datos</li>
     <li>
-      <a :href="route('rooms.room.index')">
+      <a :href="route('room.index')">
         <div class="menu-icon">
           <svg
             width="22"
@@ -64,7 +64,7 @@
       </a>
     </li>
     <!-- <li>
-      <a :href="route('charge.directive.index')">
+      <a :href="route('directive.index')">
         <div class="menu-icon">
           <svg
             width="22"
@@ -100,7 +100,7 @@
       </a>
     </li>
     <li>
-      <a :href="route('charge.sub-directive.index')">
+      <a :href="route('sub-directive.index')">
         <div class="menu-icon">
           <svg
             width="22"
@@ -130,7 +130,7 @@
     </li> -->
 
     <!-- <li>
-      <a :href="route('charge.directive.index')">
+      <a :href="route('directive.index')">
         <div class="menu-icon">
           <svg
             width="22"
@@ -159,7 +159,7 @@
       </a>
     </li>
     <li>
-      <a :href="route('charge.sub-directive.index')">
+      <a :href="route('sub-directive.index')">
         <div class="menu-icon">
           <svg
             width="22"
