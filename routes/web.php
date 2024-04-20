@@ -27,16 +27,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::resource('room', RoomController::class);
+    Route::resource('electric-charge', ElectricChargeController::class);
 
-    Route::prefix('rooms')->name('rooms.')->group(function () {
-        Route::resource('room', RoomController::class);
-        Route::resource('electric-charge', ElectricChargeController::class);
-    });
 
-    Route::prefix('charge')->name('charge.')->group(function () {
-        Route::resource('directive', ChargeDerivateController::class);
-        Route::resource('sub-directive', ChargeSubDerivateController::class);
-    });
+    Route::resource('directive', ChargeDerivateController::class);
+    Route::resource('sub-directive', ChargeSubDerivateController::class);
 });
 
 require __DIR__ . '/auth.php';
