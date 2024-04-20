@@ -31,7 +31,7 @@ defineProps({
 
       <Link
         class="btn btn-info inline-block rounded font-medium py-1.5 px-[0.9375rem] text-[0.6875rem] leading-[1.3] border border-info text-white bg-info hover:bg-hover-info hover:border-hover-info duration-300 btn-xxs shadow"
-        :href="route('rooms.room.edit', { room: idRoom })"
+        :href="route('room.edit', { room: idRoom })"
         v-if="edit"
       >
         <i class="fa-solid fa-pen"></i>
