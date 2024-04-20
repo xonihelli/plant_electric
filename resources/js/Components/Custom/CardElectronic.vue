@@ -10,7 +10,7 @@
         <div class="w-full md:w-1/2">
           <h1 class="mb-4 text-md font-semibold text-3xl">
             <i class="fa-solid fa-bolt mr-2"></i>
-            {{ data.name }}
+            {{ data.name ?? "No hay tablero de distribucion" }}
           </h1>
         </div>
         <div class="w-full md:w-1/2">
