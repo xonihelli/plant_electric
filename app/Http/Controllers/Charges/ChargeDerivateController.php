@@ -18,6 +18,10 @@ class ChargeDerivateController extends Controller
     {
         $chargeDerivates = ChargeDerivate::with('electricCharge')->get();
 
+        session()->put([
+            'transformadores' => $chargeDerivates,
+        ]);
+
         return Inertia::render(
             'Charges/ChargeDerivate/Index',
             [
@@ -36,6 +40,7 @@ class ChargeDerivateController extends Controller
 
         $room = session('room');
         $idRoom = session('idRoom');
+        $transformadores = session('transformadores');
         $totalTransformers = session('totalTransformers');
         $totalTablersDistro = session()->get('totalTablersDistro', 0);
         $totalKw = session('totalKw');
@@ -55,6 +60,7 @@ class ChargeDerivateController extends Controller
                 'totalKw' => $totalKw,
                 'idDirective' => $idDirective,
                 'transoformador' => $transoformador,
+                'transformadores' => $transformadores,
             ]
         );
     }
