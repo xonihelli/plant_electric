@@ -24,6 +24,12 @@ class RoomController extends Controller
             // Contar directamente los transformadores (ElectricCharge)
             $room->total_transformers = $room->electricCharges->count();
 
+
+            // Nuevo: Contar los tableros de distribución (ChargeDerivate)
+            $room->total_distribution_boards = $room->electricCharges->reduce(function ($carry, $charge) {
+                return $carry + $charge->chargeDerivates->count();
+            }, 0);
+
             // Contar todas las cargas eléctricas (ChargeSubDerivate) relacionadas a través de ChargeDerivates
             $room->total_electric_loads = $room->electricCharges->reduce(function ($carry, $charge) {
                 return $carry + $charge->chargeDerivates->reduce(function ($carry, $derivate) {
@@ -83,6 +89,7 @@ class RoomController extends Controller
         // Calcula el total de KW y A sumando los valores de todos los tableros de distribución de cada transformador
         $totalKw = 0;
         $totalA = 0;
+
         foreach ($room->electricCharges as $charge) {
             foreach ($charge->chargeDerivates as $derivate) {
                 $totalKw += $derivate->kw;
@@ -90,6 +97,21 @@ class RoomController extends Controller
             }
         }
 
+        // Agrega las propiedades de totales a cada transformador individual
+        $room->electricCharges->transform(function ($charge) {
+            $totalKwTransformador = 0;
+            $totalATransformador = 0;
+            foreach ($charge->chargeDerivates as $derivate) {
+                $totalKwTransformador += $derivate->kw;
+                $totalATransformador += $derivate->a;
+            }
+            // Agrega los totales individuales al transformador
+            $charge->totalKwTransformador = $totalKwTransformador;
+            $charge->totalATransformador = $totalATransformador;
+            return $charge;
+        });
+
+        // dd($room);
         session()->put([
             'room' => $room,
             'idRoom' => $id,
