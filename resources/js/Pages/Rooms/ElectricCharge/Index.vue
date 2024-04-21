@@ -73,11 +73,9 @@ const transformadoresConCalculos = computed(() => {
 
   // Cálculos por cada transformador
   return props.charges.map((charge) => {
-    console.log(charge.kw);
     const totalKwTransformador = charge.totalKwTransformador || 0;
     const porcentajeUso =
       ((FU_GENERAL * totalKwTransformador) / charge.kw) * 100;
-    // const porcentajeUso = (totalKwTransformador * FU_GENERAL * charge.kw) / 100;
 
     return {
       ...charge,
@@ -88,16 +86,18 @@ const transformadoresConCalculos = computed(() => {
   });
 });
 
-// Aquí deberías implementar la función de alerta utilizando SweetAlert,
-
 // pero por ahora dejaremos el alert nativo para simplicidad.
 const checkForHighUsage = () => {
-  const highUsageTransformers = transformadoresConCalculos.value.filter(
-    (t) => parseFloat(t.porcentajeUso) > 80
-  );
-  if (highUsageTransformers.length > 0) {
-    alert("Algunos transformadores están por encima del 80% de su capacidad.");
-  }
+  transformadoresConCalculos.value.forEach((charge) => {
+    if (parseFloat(charge.porcentajeUso) > 80) {
+      Swal.fire({
+        title: "Advertencia",
+        html: `El transformador <strong>${charge.name}</strong> está al <span style="color: red;">${charge.porcentajeUso}%</span> de su uso. Por favor, revisalo.`,
+        icon: "warning",
+        confirmButtonText: "Entendido",
+      });
+    }
+  });
 };
 
 // Invoca la función para verificar el uso alto después de calcular los transformadores.
@@ -234,13 +234,27 @@ checkForHighUsage();
                 class="progress bg-[#f6f6f6] dark:bg-[#1E1E1E] mr-[5px] h-[5px] overflow-hidden flex-1"
               >
                 <div
-                  class="progress-bar bg-primary"
-                  style="width: 80%; height: 5px; border-radius: 4px"
+                  :class="{
+                    'progress-bar bg-danger':
+                      parseFloat(charge.porcentajeUso) > 80,
+                    'progress-bar bg-primary':
+                      parseFloat(charge.porcentajeUso) <= 80,
+                  }"
+                  :style="{
+                    width: charge.porcentajeUso + '%',
+                    height: '5px',
+                    borderRadius: '4px',
+                  }"
                   role="progressbar"
                 ></div>
               </div>
-              <span class="text-primary">
-                <td>{{ charge.porcentajeUso }}%</td>
+              <span
+                :class="{
+                  'text-danger': parseFloat(charge.porcentajeUso) > 80,
+                  'text-primary': parseFloat(charge.porcentajeUso) <= 80,
+                }"
+              >
+                {{ charge.porcentajeUso }}%
               </span>
             </div>
           </td>
@@ -280,5 +294,12 @@ checkForHighUsage();
   </div>
 </template>
 
-
+<style scoped>
+.text-danger {
+  color: #dc3545;
+}
+.bg-danger {
+  background-color: #dc3545;
+}
+</style>
 
