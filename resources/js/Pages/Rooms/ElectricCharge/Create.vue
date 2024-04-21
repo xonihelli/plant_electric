@@ -51,7 +51,7 @@ const sendForm = () => {
           icon: "success",
           title: "La información del transformador eléctrico ha sido guardada",
         }).then(() => {
-          location.href = route("room.show", { room: idRoom });
+          location.href = route("room.show", { room: props.idRoom });
         });
       }
     },
