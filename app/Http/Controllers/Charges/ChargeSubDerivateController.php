@@ -91,6 +91,14 @@ class ChargeSubDerivateController extends Controller
         $charge->location = $request->location;
         $charge->save();
 
+        $totalKW = ChargeSubDerivate::where('charge_derivate_id', $request->charge_derivate_id)->sum('kw');
+        $totalA = ChargeSubDerivate::where('charge_derivate_id', $request->charge_derivate_id)->sum('a');
+
+        $chargeDerivate = ChargeDerivate::find($request->charge_derivate_id);
+        $chargeDerivate->kw = $totalKW;
+        $chargeDerivate->a = $totalA;
+        $chargeDerivate->save();
+
         return redirect()->route('sub-directive.show', ['sub_directive' => $request->charge_derivate_id]);
 
     }
@@ -100,10 +108,6 @@ class ChargeSubDerivateController extends Controller
      */
     public function show(string $id)
     {
-        // $chargeSubDerivates = ChargeDerivate::with(['electricCharge', 'chargeSubDerivate'])
-        //     ->where('id', $id)
-        //     ->get();
-
         $chargeSubDerivates = ChargeSubDerivate::where('charge_derivate_id', $id)->get();
 
         $room = session()->get('room');
@@ -210,6 +214,14 @@ class ChargeSubDerivateController extends Controller
         $charge->capacity = $request->capacity;
         $charge->location = $request->location;
         $charge->save();
+
+        $totalKW = ChargeSubDerivate::where('charge_derivate_id', $request->charge_derivate_id)->sum('kw');
+        $totalA = ChargeSubDerivate::where('charge_derivate_id', $request->charge_derivate_id)->sum('a');
+
+        $chargeDerivate = ChargeDerivate::find($request->charge_derivate_id);
+        $chargeDerivate->kw = $totalKW;
+        $chargeDerivate->a = $totalA;
+        $chargeDerivate->save();
 
         return redirect()->route('sub-directive.show', ['sub_directive' => $request->charge_derivate_id]);
 
