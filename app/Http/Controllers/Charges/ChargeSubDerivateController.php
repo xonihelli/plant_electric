@@ -204,7 +204,7 @@ class ChargeSubDerivateController extends Controller
             ]
         );
 
-        $charge = ChargeSubDerivate::find($id);
+        $charge = ChargeSubDerivate::findOrFail($id);
         $charge->charge_derivate_id = $request->charge_derivate_id;
         $charge->name = $request->name;
         $charge->kw = $request->kw;
