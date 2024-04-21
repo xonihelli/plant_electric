@@ -69,12 +69,12 @@ function deleteDerivada(id) {
               <th
                 class="text-black py-5 px-[0.9375rem] border-b-2 border-solid border-[#E6E6E6] dark:border-[#444444] capitalize whitespace-nowrap text-base font-medium text-left"
               >
-                kW
+                Total de kW
               </th>
               <th
                 class="text-black py-5 px-[0.9375rem] border-b-2 border-solid border-[#E6E6E6] dark:border-[#444444] capitalize whitespace-nowrap text-base font-medium text-left"
               >
-                A
+                Total de A
               </th>
 
               <th
