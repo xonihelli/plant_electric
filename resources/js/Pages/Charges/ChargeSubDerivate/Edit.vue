@@ -63,23 +63,29 @@ const form = useForm({
 });
 
 const sendForm = () => {
-  form.submit("post", route("sub-directive.store"), {
-    onFinish: () => {
-      if (Object.keys(form.errors).length) {
-        Swal.fire({
-          icon: "error",
-          title: "Hay errores en el formulario",
-        });
-      } else {
-        Swal.fire({
-          icon: "success",
-          title: "La información de la carga subderivada ha sido Actualizada",
-        }).then(() => {
-          location.href("sub-directive.show", { sub_directive: idDirective });
-        });
-      }
-    },
-  });
+  form.submit(
+    "put",
+    route("sub-directive.update", { sub_directive: props.data.id }),
+    {
+      onFinish: () => {
+        if (Object.keys(form.errors).length) {
+          Swal.fire({
+            icon: "error",
+            title: "Hay errores en el formulario",
+          });
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: "La información de la carga subderivada ha sido Actualizada",
+          }).then(() => {
+            location.href("sub-directive.show", {
+              sub_directive: props.data.id,
+            });
+          });
+        }
+      },
+    }
+  );
 };
 </script>
 
