@@ -223,7 +223,6 @@ class ChargeDerivateController extends Controller
         $charge->save();
 
         return redirect()->route('directive.show', ['directive' => $request->electric_charge_id]);
-
     }
 
     /**
