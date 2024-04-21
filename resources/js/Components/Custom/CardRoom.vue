@@ -63,7 +63,7 @@ defineProps({
             <li
               class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
             >
-              <strong> Total de los Kw </strong>
+              <strong> Total de los Kw de los tableros de distribución </strong>
               <span class="mb-0">
                 {{ totalKw }}
               </span>
@@ -71,7 +71,7 @@ defineProps({
             <li
               class="list-group-item flex py-4 text-body-color dark:text-white text-sm justify-between"
             >
-              <strong>Total de los A </strong>
+              <strong>Total de los A de los tableros de distribución </strong>
               <span class="mb-0">
                 {{ totalA }}
               </span>
