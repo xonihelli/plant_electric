@@ -54,6 +54,11 @@ const props = defineProps({
                 <span> {{ room.total_transformers }} </span>
               </p>
               <p class="text-gray-500 flex justify-between">
+                <b> Cant. Tableros de distribución </b>
+
+                <span> {{ room.total_distribution_boards }} </span>
+              </p>
+              <p class="text-gray-500 flex justify-between">
                 <b> Cant. Cargas electricas </b>
 
                 <span> {{ room.total_electric_loads }} </span>
