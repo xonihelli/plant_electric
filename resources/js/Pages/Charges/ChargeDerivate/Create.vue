@@ -73,7 +73,7 @@ const sendForm = () => {
           icon: "success",
           title: "La información del tablero de distribuición ha sido creada",
         }).then(() => {
-          location.href("directive.show", { directive: idDirective });
+          location.reload();
         });
       }
     },
@@ -238,7 +238,7 @@ const sendForm = () => {
                 <TextInput
                   id="lightning_discharge"
                   v-model="form.lightning_discharge"
-                  type="number"
+                  type="text"
                   autocomplete="off"
                   placeholder="Ejemplo: 1"
                 />
