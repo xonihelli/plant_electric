@@ -81,7 +81,12 @@ const props = defineProps({
       </div>
       <div class="sm:p-5 p-4">
         <div class="table-responsive">
-          <ElectricCharge :charges="room.electric_charges" :room="room" />
+          <ElectricCharge
+            :charges="room.electric_charges"
+            :room="room"
+            :totalKw="totalKw"
+            :totalA="totalA"
+          />
         </div>
       </div>
     </div>
