@@ -71,7 +71,7 @@ const sendForm = () => {
           icon: "success",
           title: "La información de la carga subderivada ha sido guardada",
         }).then(() => {
-          location.href("sub-directive.show", { sub_directive: idDirective });
+          location.reload();
         });
       }
     },
