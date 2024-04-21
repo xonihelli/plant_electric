@@ -12,9 +12,11 @@ const props = defineProps({
   },
   totalKw: {
     type: Number,
+    default: 0,
   },
   totalA: {
     type: Number,
+    default: 0,
   },
 });
 
@@ -61,7 +63,12 @@ const transformadoresConCalculos = computed(() => {
   if (!props.totalKw || !props.totalA) {
     // Aquí puedes manejar el error como prefieras.
     console.error("totalKw o totalA son 0, indefinidos o no son números");
-    return [];
+    return props.charges.map((charge) => ({
+      ...charge,
+      fuKw: "0.00",
+      fuA: "0.00",
+      porcentajeUso: "0.00",
+    }));
   }
 
   return props.charges.map((charge) => {
