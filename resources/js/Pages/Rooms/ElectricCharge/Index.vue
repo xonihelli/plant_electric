@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Link, router } from "@inertiajs/vue3";
-import { defineProps } from "vue";
+import { defineProps, computed } from "vue";
 
 const props = defineProps({
   charges: {
@@ -9,6 +9,12 @@ const props = defineProps({
   },
   room: {
     type: Object,
+  },
+  totalKw: {
+    type: Number,
+  },
+  totalA: {
+    type: Number,
   },
 });
 
@@ -47,6 +53,45 @@ function deleteDerivada(id) {
     }
   });
 }
+
+// Constantes
+const FU_GENERAL = 0.4;
+
+const transformadoresConCalculos = computed(() => {
+  if (!props.totalKw || !props.totalA) {
+    // Aquí puedes manejar el error como prefieras.
+    console.error("totalKw o totalA son 0, indefinidos o no son números");
+    return [];
+  }
+
+  return props.charges.map((charge) => {
+    const kw = charge.kw || 0; // Asegúrate de que siempre sea un número.
+    const a = charge.a || 0; // Lo mismo aquí.
+    const totalKwTransformador = charge.totalKwTransformador || 0;
+    const fuKw = kw * FU_GENERAL;
+    const fuA = a * FU_GENERAL;
+    const porcentajeUso = (totalKwTransformador / props.totalKw) * 100;
+
+    // Verifica si el uso es mayor o igual a 80%
+    if (porcentajeUso >= 80) {
+      // Muestra una alerta. Asegúrate de que esta operación no se repita innecesariamente.
+      Swal.fire({
+        title: "Advertencia",
+        text: `El transformador ${charge.name} está al ${porcentajeUso.toFixed(
+          2
+        )}% de su uso. Por favor, revisalo.`,
+        icon: "warning",
+        confirmButtonText: "Entendido",
+      });
+    }
+    return {
+      ...charge,
+      fuKw: fuKw.toFixed(2),
+      fuA: fuA.toFixed(2),
+      porcentajeUso: porcentajeUso.toFixed(2), // Esto asegurará que siempre obtengas un número.
+    };
+  });
+});
 </script>
 
 <template>
@@ -105,6 +150,7 @@ function deleteDerivada(id) {
           >
             Porcentaje
           </th>
+
           <th
             class="text-black py-5 px-[0.9375rem] border-b-2 border-solid border-[#E6E6E6] dark:border-[#444444] capitalize whitespace-nowrap text-base font-medium text-left"
           >
@@ -112,7 +158,7 @@ function deleteDerivada(id) {
           </th>
         </tr>
       </thead>
-      <tbody v-for="charge in props.charges" :key="charge.id">
+      <tbody v-for="charge in transformadoresConCalculos" :key="charge.id">
         <tr class="bg-transparent">
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
@@ -132,27 +178,27 @@ function deleteDerivada(id) {
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
           >
-            {{ charge.total_kw ?? "No disponible" }}
+            {{ charge.totalKwTransformador ?? "No disponible" }}
           </td>
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
           >
-            {{ charge.total_a ?? "No disponible" }}
+            {{ charge.totalATransformador ?? "No disponible" }}
           </td>
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
           >
-            {{ charge.fu_general ?? "No disponible" }}
+            {{ FU_GENERAL ?? "No disponible" }}
           </td>
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
           >
-            {{ charge.fu_kw ?? "No disponible" }}
+            {{ charge.fuKw ?? "No disponible" }}
           </td>
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
           >
-            {{ charge.fu_a ?? "No disponible" }}
+            {{ charge.fuA ?? "No disponible" }}
           </td>
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
@@ -183,8 +229,17 @@ function deleteDerivada(id) {
                   role="progressbar"
                 ></div>
               </div>
-              <span class="text-primary">53%</span>
+              <span class="text-primary">
+                <td>{{ charge.porcentajeUso }}%</td>
+              </span>
             </div>
+          </td>
+          <td
+            class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
+          >
+            <span v-if="charge.porcentajeUso >= 80" class="text-red-600">
+              ¡Alto uso!
+            </span>
           </td>
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
