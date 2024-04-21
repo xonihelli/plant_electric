@@ -41,7 +41,7 @@ function deleteDerivada(id) {
         )
         .then(() => {
           // Recarga la página después de eliminar
-          location.reload();
+          location.href = route("room.show", { room: props.room.id });
         })
         .catch((error) => {
           // Manejo del error, por si acaso la solicitud falla
@@ -60,9 +60,9 @@ function deleteDerivada(id) {
 const FU_GENERAL = 0.4;
 
 const transformadoresConCalculos = computed(() => {
-  if (!props.totalKw || !props.totalA) {
-    // Aquí puedes manejar el error como prefieras.
-    console.error("totalKw o totalA son 0, indefinidos o no son números");
+  // Validar que totalKw es mayor que cero para evitar la división por cero
+  if (props.totalKw <= 0) {
+    console.error("totalKw es 0 o indefinido");
     return props.charges.map((charge) => ({
       ...charge,
       fuKw: "0.00",
@@ -71,34 +71,37 @@ const transformadoresConCalculos = computed(() => {
     }));
   }
 
+  // Cálculos por cada transformador
   return props.charges.map((charge) => {
-    const kw = charge.kw || 0; // Asegúrate de que siempre sea un número.
-    const a = charge.a || 0; // Lo mismo aquí.
+    console.log(charge.kw);
     const totalKwTransformador = charge.totalKwTransformador || 0;
-    const fuKw = kw * FU_GENERAL;
-    const fuA = a * FU_GENERAL;
-    const porcentajeUso = (totalKwTransformador / props.totalKw) * 100;
+    const porcentajeUso =
+      ((FU_GENERAL * totalKwTransformador) / charge.kw) * 100;
+    // const porcentajeUso = (totalKwTransformador * FU_GENERAL * charge.kw) / 100;
 
-    // Verifica si el uso es mayor o igual a 80%
-    if (porcentajeUso >= 80) {
-      // Muestra una alerta. Asegúrate de que esta operación no se repita innecesariamente.
-      Swal.fire({
-        title: "Advertencia",
-        text: `El transformador ${charge.name} está al ${porcentajeUso.toFixed(
-          2
-        )}% de su uso. Por favor, revisalo.`,
-        icon: "warning",
-        confirmButtonText: "Entendido",
-      });
-    }
     return {
       ...charge,
-      fuKw: fuKw.toFixed(2),
-      fuA: fuA.toFixed(2),
-      porcentajeUso: porcentajeUso.toFixed(2), // Esto asegurará que siempre obtengas un número.
+      fuKw: (totalKwTransformador * FU_GENERAL).toFixed(2),
+      fuA: (charge.totalATransformador || 0).toFixed(2),
+      porcentajeUso: porcentajeUso.toFixed(2),
     };
   });
 });
+
+// Aquí deberías implementar la función de alerta utilizando SweetAlert,
+
+// pero por ahora dejaremos el alert nativo para simplicidad.
+const checkForHighUsage = () => {
+  const highUsageTransformers = transformadoresConCalculos.value.filter(
+    (t) => parseFloat(t.porcentajeUso) > 80
+  );
+  if (highUsageTransformers.length > 0) {
+    alert("Algunos transformadores están por encima del 80% de su capacidad.");
+  }
+};
+
+// Invoca la función para verificar el uso alto después de calcular los transformadores.
+checkForHighUsage();
 </script>
 
 <template>
@@ -241,13 +244,7 @@ const transformadoresConCalculos = computed(() => {
               </span>
             </div>
           </td>
-          <td
-            class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
-          >
-            <span v-if="charge.porcentajeUso >= 80" class="text-red-600">
-              ¡Alto uso!
-            </span>
-          </td>
+
           <td
             class="text-body-color bg-transparent xl:py-5 py-2 xl:px-[0.9375rem] px-[0.9375rem] capitalize whitespace-nowrap xl:text-[15px] text-[13px] font-normal text-left"
           >
