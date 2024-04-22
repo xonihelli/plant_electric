@@ -53,9 +53,10 @@ const showingNavigationDropdown = ref(false);
                           class="header-media mr-[7px] h-[1.875rem] w-[1.875rem]"
                         >
                           <img
-                            src="/assets/images/tab/1.jpg"
-                            alt=""
-                            class="w-full rounded-full"
+                            :src="`https://ui-avatars.com/api/?background=random&name=${encodeURIComponent(
+                              $page.props.auth.user.name
+                            )}`"
+                            alt="User Avatar"
                           />
                         </div>
                         <div class="header-info text-white max-sm:hidden">
@@ -80,9 +81,11 @@ const showingNavigationDropdown = ref(false);
                         >
                           <div class="flex items-center">
                             <img
-                              src="/assets/images/tab/1.jpg"
                               class="inline-block mr-2.5 w-[2.813rem] min-w-[2.813rem] h-[2.813rem] rounded-md relative object-cover avatar-md"
-                              alt=""
+                              :src="`https://ui-avatars.com/api/?background=random&name=${encodeURIComponent(
+                                $page.props.auth.user.name
+                              )}`"
+                              alt="User Avatar"
                             />
                             <div>
                               <h6 class="text-sm">
