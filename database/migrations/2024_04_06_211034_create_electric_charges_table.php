@@ -16,11 +16,6 @@ return new class extends Migration {
             $table->string('name');
             $table->float('kw');
             $table->float('a');
-            // $table->float('total_kw');
-            // $table->float('total_a');
-            // $table->float('fu_general');
-            // $table->float('fu_kw');
-            // $table->float('fu_a');
             $table->date('measurement_date');
             $table->timestamps();
             $table->softDeletes();
